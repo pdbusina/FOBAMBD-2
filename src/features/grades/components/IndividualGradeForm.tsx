@@ -21,6 +21,7 @@ export default function GradeEntryForm({ onClose }: { onClose: () => void }) {
     const [condicion, setCondicion] = useState<'promoción' | 'examen' | 'equivalencia'>('promoción');
     const [obsOptativa, setObsOptativa] = useState('');
     const [libroFolio, setLibroFolio] = useState('');
+    const [fecha, setFecha] = useState(new Date().toISOString().split('T')[0]);
     const [submitting, setSubmitting] = useState(false);
     const [successMsg, setSuccessMsg] = useState('');
 
@@ -86,6 +87,7 @@ export default function GradeEntryForm({ onClose }: { onClose: () => void }) {
                 setCondicion(nota.condicion);
                 setObsOptativa(nota.obs_optativa_ensamble || '');
                 setLibroFolio(nota.libro_folio || '');
+                setFecha(nota.fecha || new Date().toISOString().split('T')[0]);
                 setSuccessMsg('Nota previa encontrada. Puedes editarla.');
                 setTimeout(() => setSuccessMsg(''), 3000);
             } else {
@@ -94,6 +96,7 @@ export default function GradeEntryForm({ onClose }: { onClose: () => void }) {
                 setCondicion('promoción');
                 setObsOptativa('');
                 setLibroFolio('');
+                setFecha(new Date().toISOString().split('T')[0]);
             }
         } catch (err: any) {
             console.error(err);
@@ -122,7 +125,8 @@ export default function GradeEntryForm({ onClose }: { onClose: () => void }) {
                 nota: notaValue,
                 condicion: condicion,
                 obs_optativa_ensamble: obsOptativa,
-                libro_folio: libroFolio
+                libro_folio: libroFolio,
+                fecha: fecha
             };
 
             await upsertNota(nota);
@@ -266,6 +270,17 @@ export default function GradeEntryForm({ onClose }: { onClose: () => void }) {
                                         <option value="examen">EXAMEN</option>
                                         <option value="equivalencia">EQUIVALENCIA</option>
                                     </select>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Fecha de la Nota</label>
+                                    <input
+                                        required
+                                        type="date"
+                                        className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-indigo-50 focus:border-indigo-500 font-bold text-slate-900 uppercase appearance-none cursor-pointer"
+                                        value={fecha}
+                                        onChange={(e) => setFecha(e.target.value)}
+                                    />
                                 </div>
                             </div>
 

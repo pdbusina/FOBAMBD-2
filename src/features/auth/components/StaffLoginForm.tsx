@@ -41,7 +41,7 @@ export default function LoginForm() {
                     FOBAMBD <span className="text-indigo-600">2.0</span>
                 </h2>
                 <p className="text-slate-500 font-medium">
-                    Gestión Académica Profesional
+                    Gestión Académica
                 </p>
             </div>
 

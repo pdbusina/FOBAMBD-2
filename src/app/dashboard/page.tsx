@@ -11,11 +11,14 @@ import StudentEditForm from '@/features/students/components/StudentEditForm';
 import EnrollmentForm from '@/features/students/components/EnrollmentForm';
 import EnrollmentList from '@/features/students/components/EnrollmentList';
 import IndividualGradeForm from '@/features/grades/components/IndividualGradeForm';
+import GradeSheetForm from '@/features/grades/components/GradeSheetForm';
+import TranscriptForm from '@/features/grades/components/TranscriptForm';
 
 export default function DashboardPage() {
     const { user, profile: apiProfile, loading } = useAuth();
     const [forcedProfile, setForcedProfile] = useState<UserProfile | null>(null);
     const [view, setView] = useState<'summary' | 'students' | 'add_student' | 'edit_profile' | 'enrollment' | 'grades'>('summary');
+    const [gradeSubView, setGradeSubView] = useState<'individual' | 'planilla' | 'analitico'>('individual');
     const [enrollmentRefresh, setEnrollmentRefresh] = useState(0);
     const router = useRouter();
 
@@ -304,10 +307,35 @@ export default function DashboardPage() {
                 )}
 
                 {view === 'grades' && (
-                    <div className="animate-in slide-in-from-bottom-8 duration-700 w-full">
-                        <IndividualGradeForm
-                            onClose={() => setView('summary')}
-                        />
+                    <div className="animate-in slide-in-from-bottom-8 duration-700 w-full flex flex-col items-center gap-8">
+                        <div className="w-full max-w-4xl flex bg-white p-2 rounded-2xl shadow-sm border border-slate-100">
+                            <button
+                                onClick={() => setGradeSubView('individual')}
+                                className={`flex-1 py-3 font-bold text-xs uppercase tracking-widest rounded-xl transition-all ${gradeSubView === 'individual' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-slate-600'}`}
+                            >
+                                Carga Individual
+                            </button>
+                            <button
+                                onClick={() => setGradeSubView('planilla')}
+                                className={`flex-1 py-3 font-bold text-xs uppercase tracking-widest rounded-xl transition-all ${gradeSubView === 'planilla' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-slate-600'}`}
+                            >
+                                Carga de Planilla
+                            </button>
+                            <button
+                                onClick={() => setGradeSubView('analitico')}
+                                className={`flex-1 py-3 font-bold text-xs uppercase tracking-widest rounded-xl transition-all ${gradeSubView === 'analitico' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-slate-600'}`}
+                            >
+                                Carga de Analítico
+                            </button>
+                        </div>
+
+                        {gradeSubView === 'individual' ? (
+                            <IndividualGradeForm onClose={() => setView('summary')} />
+                        ) : gradeSubView === 'planilla' ? (
+                            <GradeSheetForm onClose={() => setView('summary')} />
+                        ) : (
+                            <TranscriptForm onClose={() => setView('summary')} />
+                        )}
                     </div>
                 )}
 
