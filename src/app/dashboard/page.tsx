@@ -10,11 +10,12 @@ import StudentForm from '@/features/students/components/StudentForm';
 import StudentEditForm from '@/features/students/components/StudentEditForm';
 import EnrollmentForm from '@/features/students/components/EnrollmentForm';
 import EnrollmentList from '@/features/students/components/EnrollmentList';
+import IndividualGradeForm from '@/features/grades/components/IndividualGradeForm';
 
 export default function DashboardPage() {
     const { user, profile: apiProfile, loading } = useAuth();
     const [forcedProfile, setForcedProfile] = useState<UserProfile | null>(null);
-    const [view, setView] = useState<'summary' | 'students' | 'add_student' | 'edit_profile' | 'enrollment'>('summary');
+    const [view, setView] = useState<'summary' | 'students' | 'add_student' | 'edit_profile' | 'enrollment' | 'grades'>('summary');
     const [enrollmentRefresh, setEnrollmentRefresh] = useState(0);
     const router = useRouter();
 
@@ -174,6 +175,24 @@ export default function DashboardPage() {
                             {(profile.rol === 'admin' || profile.rol === 'preceptor') && (
                                 <div
                                     className="group bg-white p-8 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-indigo-100/50 border border-slate-100 transition-all cursor-pointer ring-0 hover:ring-2 hover:ring-indigo-100"
+                                    onClick={() => setView('grades')}
+                                >
+                                    <div className="mb-6 w-14 h-14 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center group-hover:bg-amber-600 group-hover:text-white transition-all duration-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-xl font-bold mb-2 text-slate-900 group-hover:text-amber-600 transition-colors">GESTIÓN DE NOTAS</h3>
+                                    <p className="text-slate-500 font-medium text-sm leading-relaxed">Carga individual, planillas y analíticos de alumnos.</p>
+                                    <div className="mt-8 pt-6 border-t border-slate-50 flex items-center text-xs font-bold text-amber-600 uppercase tracking-widest group-hover:gap-2 transition-all">
+                                        Entrar <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                                    </div>
+                                </div>
+                            )}
+
+                            {(profile.rol === 'admin' || profile.rol === 'preceptor') && (
+                                <div
+                                    className="group bg-white p-8 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-indigo-100/50 border border-slate-100 transition-all cursor-pointer ring-0 hover:ring-2 hover:ring-indigo-100"
                                     onClick={() => setView('students')}
                                 >
                                     <div className="mb-6 w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
@@ -281,6 +300,14 @@ export default function DashboardPage() {
                                 <EnrollmentList refreshTrigger={enrollmentRefresh} />
                             </div>
                         </div>
+                    </div>
+                )}
+
+                {view === 'grades' && (
+                    <div className="animate-in slide-in-from-bottom-8 duration-700 w-full">
+                        <IndividualGradeForm
+                            onClose={() => setView('summary')}
+                        />
                     </div>
                 )}
 

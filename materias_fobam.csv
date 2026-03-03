@@ -1,0 +1,587 @@
+plan;anio;nombre
+530 Arpa;1;Expresión Corporal
+530 Arpa;1;Coro 1
+530 Arpa;1;Lenguaje Musical 1
+530 Arpa;1;Instrumento Fundamental 1: Arpa
+530 Arpa;1;Danzas Folklóricas
+530 Arpa;2;Lenguaje Musical 2
+530 Arpa;2;Ensamble 1
+530 Arpa;2;Instrumento Fundamental 2: Arpa
+530 Arpa;2;Coro 2
+530 Arpa;3;Apreciación Musical 1
+530 Arpa;3;Instrumento Fundamental 3: Arpa
+530 Arpa;3;Lenguaje Musical 3
+530 Arpa;3;Ensamble 2
+530 Arpa;4;Apreciación Musical 2
+530 Arpa;4;Lenguaje Musical 4
+530 Arpa;4;Optativa 1
+530 Arpa;4;Ensamble 3
+530 Arpa;4;Instrumento Fundamental 4: Arpa
+530 Arpa;5;Ensamble 4
+530 Arpa;5;Instrumento Fundamental 5: Arpa
+530 Arpa;5;Seminario Armonía
+530 Arpa;5;Seminario Ritmo
+530 Arpa;5;Optativa 2
+530 Bajo Eléctrico;1;Lenguaje Musical 1
+530 Bajo Eléctrico;1;Danzas Folklóricas
+530 Bajo Eléctrico;1;Coro 1
+530 Bajo Eléctrico;1;Instrumento Fundamental 1: Bajo Eléctrico
+530 Bajo Eléctrico;1;Expresión Corporal
+530 Bajo Eléctrico;2;Lenguaje Musical 2
+530 Bajo Eléctrico;2;Instrumento Fundamental 2: Bajo Eléctrico
+530 Bajo Eléctrico;2;Ensamble 1
+530 Bajo Eléctrico;2;Coro 2
+530 Bajo Eléctrico;3;Apreciación Musical 1
+530 Bajo Eléctrico;3;Lenguaje Musical 3
+530 Bajo Eléctrico;3;Instrumento Fundamental 3: Bajo Eléctrico
+530 Bajo Eléctrico;3;Ensamble 2
+530 Bajo Eléctrico;4;Instrumento Fundamental 4: Bajo Eléctrico
+530 Bajo Eléctrico;4;Apreciación Musical 2
+530 Bajo Eléctrico;4;Optativa 1
+530 Bajo Eléctrico;4;Lenguaje Musical 4
+530 Bajo Eléctrico;4;Ensamble 3
+530 Bajo Eléctrico;5;Ensamble 4
+530 Bajo Eléctrico;5;Optativa 2
+530 Bajo Eléctrico;5;Instrumento Fundamental 5: Bajo Eléctrico
+530 Bajo Eléctrico;5;Seminario Armonía
+530 Bajo Eléctrico;5;Seminario Ritmo
+530 Bandoneón;1;Instrumento Fundamental 1: Bandoneón
+530 Bandoneón;1;Coro 1
+530 Bandoneón;1;Lenguaje Musical 1
+530 Bandoneón;1;Expresión Corporal
+530 Bandoneón;1;Danzas Folklóricas
+530 Bandoneón;2;Ensamble 1
+530 Bandoneón;2;Coro 2
+530 Bandoneón;2;Lenguaje Musical 2
+530 Bandoneón;2;Instrumento Fundamental 2: Bandoneón
+530 Bandoneón;3;Instrumento Fundamental 3: Bandoneón
+530 Bandoneón;3;Apreciación Musical 1
+530 Bandoneón;3;Lenguaje Musical 3
+530 Bandoneón;3;Ensamble 2
+530 Bandoneón;4;Ensamble 3
+530 Bandoneón;4;Optativa 1
+530 Bandoneón;4;Apreciación Musical 2
+530 Bandoneón;4;Instrumento Fundamental 4: Bandoneón
+530 Bandoneón;4;Lenguaje Musical 4
+530 Bandoneón;5;Optativa 2
+530 Bandoneón;5;Seminario Ritmo
+530 Bandoneón;5;Ensamble 4
+530 Bandoneón;5;Seminario Armonía
+530 Bandoneón;5;Instrumento Fundamental 5: Bandoneón
+530 Batería;1;Expresión Corporal
+530 Batería;1;Instrumento Fundamental 1: Batería
+530 Batería;1;Danzas Folklóricas
+530 Batería;1;Lenguaje Musical 1
+530 Batería;1;Coro 1
+530 Batería;2;Coro 2
+530 Batería;2;Ensamble 1
+530 Batería;2;Lenguaje Musical 2
+530 Batería;2;Instrumento Fundamental 2: Batería
+530 Batería;3;Lenguaje Musical 3
+530 Batería;3;Ensamble 2
+530 Batería;3;Apreciación Musical 1
+530 Batería;3;Instrumento Fundamental 3: Batería
+530 Batería;4;Apreciación Musical 2
+530 Batería;4;Instrumento Fundamental 4: Batería
+530 Batería;4;Ensamble 3
+530 Batería;4;Optativa 1
+530 Batería;4;Lenguaje Musical 4
+530 Batería;5;Ensamble 4
+530 Batería;5;Optativa 2
+530 Batería;5;Seminario Armonía
+530 Batería;5;Instrumento Fundamental 5: Batería
+530 Batería;5;Seminario Ritmo
+530 Clarinete;1;Danzas Folklóricas
+530 Clarinete;1;Lenguaje Musical 1
+530 Clarinete;1;Instrumento Fundamental 1: Clarinete
+530 Clarinete;1;Coro 1
+530 Clarinete;1;Expresión Corporal
+530 Clarinete;2;Lenguaje Musical 2
+530 Clarinete;2;Ensamble 1
+530 Clarinete;2;Instrumento Fundamental 2: Clarinete
+530 Clarinete;2;Coro 2
+530 Clarinete;3;Apreciación Musical 1
+530 Clarinete;3;Instrumento Fundamental 3: Clarinete
+530 Clarinete;3;Ensamble 2
+530 Clarinete;3;Lenguaje Musical 3
+530 Clarinete;4;Apreciación Musical 2
+530 Clarinete;4;Optativa 1
+530 Clarinete;4;Lenguaje Musical 4
+530 Clarinete;4;Ensamble 3
+530 Clarinete;4;Instrumento Fundamental 4: Clarinete
+530 Clarinete;5;Seminario Armonía
+530 Clarinete;5;Ensamble 4
+530 Clarinete;5;Instrumento Fundamental 5: Clarinete
+530 Clarinete;5;Optativa 2
+530 Clarinete;5;Seminario Ritmo
+530 Contrabajo;1;Coro 1
+530 Contrabajo;1;Lenguaje Musical 1
+530 Contrabajo;1;Expresión Corporal
+530 Contrabajo;1;Danzas Folklóricas
+530 Contrabajo;1;Instrumento Fundamental 1: Contrabajo
+530 Contrabajo;2;Instrumento Fundamental 2: Contrabajo
+530 Contrabajo;2;Ensamble 1
+530 Contrabajo;2;Lenguaje Musical 2
+530 Contrabajo;2;Coro 2
+530 Contrabajo;3;Instrumento Fundamental 3: Contrabajo
+530 Contrabajo;3;Ensamble 2
+530 Contrabajo;3;Lenguaje Musical 3
+530 Contrabajo;3;Apreciación Musical 1
+530 Contrabajo;4;Optativa 1
+530 Contrabajo;4;Apreciación Musical 2
+530 Contrabajo;4;Instrumento Fundamental 4: Contrabajo
+530 Contrabajo;4;Ensamble 3
+530 Contrabajo;4;Lenguaje Musical 4
+530 Contrabajo;5;Ensamble 4
+530 Contrabajo;5;Seminario Armonía
+530 Contrabajo;5;Instrumento Fundamental 5: Contrabajo
+530 Contrabajo;5;Seminario Ritmo
+530 Contrabajo;5;Optativa 2
+530 Corno;1;Expresión Corporal
+530 Corno;1;Coro 1
+530 Corno;1;Danzas Folklóricas
+530 Corno;1;Instrumento Fundamental 1: Corno
+530 Corno;1;Lenguaje Musical 1
+530 Corno;2;Instrumento Fundamental 2: Corno
+530 Corno;2;Ensamble 1
+530 Corno;2;Lenguaje Musical 2
+530 Corno;2;Coro 2
+530 Corno;3;Ensamble 2
+530 Corno;3;Apreciación Musical 1
+530 Corno;3;Instrumento Fundamental 3: Corno
+530 Corno;3;Lenguaje Musical 3
+530 Corno;4;Instrumento Fundamental 4: Corno
+530 Corno;4;Apreciación Musical 2
+530 Corno;4;Lenguaje Musical 4
+530 Corno;4;Ensamble 3
+530 Corno;4;Optativa 1
+530 Corno;5;Ensamble 4
+530 Corno;5;Seminario Armonía
+530 Corno;5;Instrumento Fundamental 5: Corno
+530 Corno;5;Seminario Ritmo
+530 Corno;5;Optativa 2
+530 Flauta Dulce;1;Coro 1
+530 Flauta Dulce;1;Instrumento Fundamental 1: Flauta Dulce
+530 Flauta Dulce;1;Lenguaje Musical 1
+530 Flauta Dulce;1;Expresión Corporal
+530 Flauta Dulce;1;Danzas Folklóricas
+530 Flauta Dulce;2;Ensamble 1
+530 Flauta Dulce;2;Instrumento Fundamental 2: Flauta Dulce
+530 Flauta Dulce;2;Lenguaje Musical 2
+530 Flauta Dulce;2;Coro 2
+530 Flauta Dulce;3;Lenguaje Musical 3
+530 Flauta Dulce;3;Instrumento Fundamental 3: Flauta Dulce
+530 Flauta Dulce;3;Apreciación Musical 1
+530 Flauta Dulce;3;Ensamble 2
+530 Flauta Dulce;4;Optativa 1
+530 Flauta Dulce;4;Apreciación Musical 2
+530 Flauta Dulce;4;Ensamble 3
+530 Flauta Dulce;4;Lenguaje Musical 4
+530 Flauta Dulce;4;Instrumento Fundamental 4: Flauta Dulce
+530 Flauta Dulce;5;Optativa 2
+530 Flauta Dulce;5;Instrumento Fundamental 5: Flauta Dulce
+530 Flauta Dulce;5;Ensamble 4
+530 Flauta Dulce;5;Seminario Armonía
+530 Flauta Dulce;5;Seminario Ritmo
+530 Flauta Traversa;1;Coro 1
+530 Flauta Traversa;1;Danzas Folklóricas
+530 Flauta Traversa;1;Lenguaje Musical 1
+530 Flauta Traversa;1;Expresión Corporal
+530 Flauta Traversa;1;Instrumento Fundamental 1: Flauta Traversa
+530 Flauta Traversa;2;Coro 2
+530 Flauta Traversa;2;Instrumento Fundamental 2: Flauta Traversa
+530 Flauta Traversa;2;Ensamble 1
+530 Flauta Traversa;2;Lenguaje Musical 2
+530 Flauta Traversa;3;Lenguaje Musical 3
+530 Flauta Traversa;3;Instrumento Fundamental 3: Flauta Traversa
+530 Flauta Traversa;3;Apreciación Musical 1
+530 Flauta Traversa;3;Ensamble 2
+530 Flauta Traversa;4;Instrumento Fundamental 4: Flauta Traversa
+530 Flauta Traversa;4;Lenguaje Musical 4
+530 Flauta Traversa;4;Optativa 1
+530 Flauta Traversa;4;Ensamble 3
+530 Flauta Traversa;4;Apreciación Musical 2
+530 Flauta Traversa;5;Instrumento Fundamental 5: Flauta Traversa
+530 Flauta Traversa;5;Seminario Ritmo
+530 Flauta Traversa;5;Ensamble 4
+530 Flauta Traversa;5;Seminario Armonía
+530 Flauta Traversa;5;Optativa 2
+530 Guitarra Clásica;1;Expresión Corporal
+530 Guitarra Clásica;1;Coro 1
+530 Guitarra Clásica;1;Instrumento Fundamental 1: Guitarra Clásica
+530 Guitarra Clásica;1;Danzas Folklóricas
+530 Guitarra Clásica;1;Lenguaje Musical 1
+530 Guitarra Clásica;2;Lenguaje Musical 2
+530 Guitarra Clásica;2;Instrumento Fundamental 2: Guitarra Clásica
+530 Guitarra Clásica;2;Ensamble 1
+530 Guitarra Clásica;2;Coro 2
+530 Guitarra Clásica;3;Ensamble 2
+530 Guitarra Clásica;3;Lenguaje Musical 3
+530 Guitarra Clásica;3;Instrumento Fundamental 3: Guitarra Clásica
+530 Guitarra Clásica;3;Apreciación Musical 1
+530 Guitarra Clásica;4;Apreciación Musical 2
+530 Guitarra Clásica;4;Optativa 1
+530 Guitarra Clásica;4;Ensamble 3
+530 Guitarra Clásica;4;Lenguaje Musical 4
+530 Guitarra Clásica;4;Instrumento Fundamental 4: Guitarra Clásica
+530 Guitarra Clásica;5;Seminario Armonía
+530 Guitarra Clásica;5;Ensamble 4
+530 Guitarra Clásica;5;Seminario Ritmo
+530 Guitarra Clásica;5;Instrumento Fundamental 5: Guitarra Clásica
+530 Guitarra Clásica;5;Optativa 2
+530 Guitarra Eléctrica;1;Expresión Corporal
+530 Guitarra Eléctrica;1;Instrumento Fundamental 1: Guitarra Eléctrica
+530 Guitarra Eléctrica;1;Danzas Folklóricas
+530 Guitarra Eléctrica;1;Coro 1
+530 Guitarra Eléctrica;1;Lenguaje Musical 1
+530 Guitarra Eléctrica;2;Lenguaje Musical 2
+530 Guitarra Eléctrica;2;Coro 2
+530 Guitarra Eléctrica;2;Ensamble 1
+530 Guitarra Eléctrica;2;Instrumento Fundamental 2: Guitarra Eléctrica
+530 Guitarra Eléctrica;3;Instrumento Fundamental 3: Guitarra Eléctrica
+530 Guitarra Eléctrica;3;Ensamble 2
+530 Guitarra Eléctrica;3;Apreciación Musical 1
+530 Guitarra Eléctrica;3;Lenguaje Musical 3
+530 Guitarra Eléctrica;4;Optativa 1
+530 Guitarra Eléctrica;4;Ensamble 3
+530 Guitarra Eléctrica;4;Lenguaje Musical 4
+530 Guitarra Eléctrica;4;Instrumento Fundamental 4: Guitarra Eléctrica
+530 Guitarra Eléctrica;4;Apreciación Musical 2
+530 Guitarra Eléctrica;5;Seminario Ritmo
+530 Guitarra Eléctrica;5;Ensamble 4
+530 Guitarra Eléctrica;5;Optativa 2
+530 Guitarra Eléctrica;5;Seminario Armonía
+530 Guitarra Eléctrica;5;Instrumento Fundamental 5: Guitarra Eléctrica
+530 Guitarra Popular;1;Instrumento Fundamental 1: Guitarra Popular
+530 Guitarra Popular;1;Lenguaje Musical 1
+530 Guitarra Popular;1;Expresión Corporal
+530 Guitarra Popular;1;Coro 1
+530 Guitarra Popular;1;Danzas Folklóricas
+530 Guitarra Popular;2;Ensamble 1
+530 Guitarra Popular;2;Lenguaje Musical 2
+530 Guitarra Popular;2;Coro 2
+530 Guitarra Popular;2;Instrumento Fundamental 2: Guitarra Popular
+530 Guitarra Popular;3;Apreciación Musical 1
+530 Guitarra Popular;3;Ensamble 2
+530 Guitarra Popular;3;Instrumento Fundamental 3: Guitarra Popular
+530 Guitarra Popular;3;Lenguaje Musical 3
+530 Guitarra Popular;4;Instrumento Fundamental 4: Guitarra Popular
+530 Guitarra Popular;4;Ensamble 3
+530 Guitarra Popular;4;Apreciación Musical 2
+530 Guitarra Popular;4;Optativa 1
+530 Guitarra Popular;4;Lenguaje Musical 4
+530 Guitarra Popular;5;Instrumento Fundamental 5: Guitarra Popular
+530 Guitarra Popular;5;Seminario Armonía
+530 Guitarra Popular;5;Seminario Ritmo
+530 Guitarra Popular;5;Ensamble 4
+530 Guitarra Popular;5;Optativa 2
+530 Oboe;1;Lenguaje Musical 1
+530 Oboe;1;Instrumento Fundamental 1: Oboe
+530 Oboe;1;Expresión Corporal
+530 Oboe;1;Danzas Folklóricas
+530 Oboe;1;Coro 1
+530 Oboe;2;Ensamble 1
+530 Oboe;2;Instrumento Fundamental 2: Oboe
+530 Oboe;2;Coro 2
+530 Oboe;2;Lenguaje Musical 2
+530 Oboe;3;Ensamble 2
+530 Oboe;3;Apreciación Musical 1
+530 Oboe;3;Instrumento Fundamental 3: Oboe
+530 Oboe;3;Lenguaje Musical 3
+530 Oboe;4;Optativa 1
+530 Oboe;4;Apreciación Musical 2
+530 Oboe;4;Lenguaje Musical 4
+530 Oboe;4;Ensamble 3
+530 Oboe;4;Instrumento Fundamental 4: Oboe
+530 Oboe;5;Seminario Ritmo
+530 Oboe;5;Instrumento Fundamental 5: Oboe
+530 Oboe;5;Seminario Armonía
+530 Oboe;5;Ensamble 4
+530 Oboe;5;Optativa 2
+530 Percusión Académica;1;Lenguaje Musical 1
+530 Percusión Académica;1;Danzas Folklóricas
+530 Percusión Académica;1;Instrumento Fundamental 1: Percusión Académica
+530 Percusión Académica;1;Expresión Corporal
+530 Percusión Académica;1;Coro 1
+530 Percusión Académica;2;Coro 2
+530 Percusión Académica;2;Instrumento Fundamental 2: Percusión Académica
+530 Percusión Académica;2;Lenguaje Musical 2
+530 Percusión Académica;2;Ensamble 1
+530 Percusión Académica;3;Apreciación Musical 1
+530 Percusión Académica;3;Ensamble 2
+530 Percusión Académica;3;Lenguaje Musical 3
+530 Percusión Académica;3;Instrumento Fundamental 3: Percusión Académica
+530 Percusión Académica;4;Instrumento Fundamental 4: Percusión Académica
+530 Percusión Académica;4;Lenguaje Musical 4
+530 Percusión Académica;4;Apreciación Musical 2
+530 Percusión Académica;4;Ensamble 3
+530 Percusión Académica;4;Optativa 1
+530 Percusión Académica;5;Optativa 2
+530 Percusión Académica;5;Instrumento Fundamental 5: Percusión Académica
+530 Percusión Académica;5;Ensamble 4
+530 Percusión Académica;5;Seminario Armonía
+530 Percusión Académica;5;Seminario Ritmo
+530 Percusión Folklórica;1;Danzas Folklóricas
+530 Percusión Folklórica;1;Lenguaje Musical 1
+530 Percusión Folklórica;1;Instrumento Fundamental 1: Percusión Folklórica
+530 Percusión Folklórica;1;Coro 1
+530 Percusión Folklórica;1;Expresión Corporal
+530 Percusión Folklórica;2;Lenguaje Musical 2
+530 Percusión Folklórica;2;Instrumento Fundamental 2: Percusión Folklórica
+530 Percusión Folklórica;2;Ensamble 1
+530 Percusión Folklórica;2;Coro 2
+530 Percusión Folklórica;3;Lenguaje Musical 3
+530 Percusión Folklórica;3;Instrumento Fundamental 3: Percusión Folklórica
+530 Percusión Folklórica;3;Apreciación Musical 1
+530 Percusión Folklórica;3;Ensamble 2
+530 Percusión Folklórica;4;Ensamble 3
+530 Percusión Folklórica;4;Instrumento Fundamental 4: Percusión Folklórica
+530 Percusión Folklórica;4;Apreciación Musical 2
+530 Percusión Folklórica;4;Optativa 1
+530 Percusión Folklórica;4;Lenguaje Musical 4
+530 Percusión Folklórica;5;Optativa 2
+530 Percusión Folklórica;5;Seminario Ritmo
+530 Percusión Folklórica;5;Instrumento Fundamental 5: Percusión Folklórica
+530 Percusión Folklórica;5;Seminario Armonía
+530 Percusión Folklórica;5;Ensamble 4
+530 Piano;1;Danzas Folklóricas
+530 Piano;1;Lenguaje Musical 1
+530 Piano;1;Expresión Corporal
+530 Piano;1;Instrumento Fundamental 1: Piano
+530 Piano;1;Coro 1
+530 Piano;2;Ensamble 1
+530 Piano;2;Instrumento Fundamental 2: Piano
+530 Piano;2;Coro 2
+530 Piano;2;Lenguaje Musical 2
+530 Piano;3;Instrumento Fundamental 3: Piano
+530 Piano;3;Ensamble 2
+530 Piano;3;Lenguaje Musical 3
+530 Piano;3;Apreciación Musical 1
+530 Piano;4;Ensamble 3
+530 Piano;4;Optativa 1
+530 Piano;4;Apreciación Musical 2
+530 Piano;4;Lenguaje Musical 4
+530 Piano;4;Instrumento Fundamental 4: Piano
+530 Piano;5;Seminario Ritmo
+530 Piano;5;Seminario Armonía
+530 Piano;5;Instrumento Fundamental 5: Piano
+530 Piano;5;Ensamble 4
+530 Piano;5;Optativa 2
+530 Saxo;1;Lenguaje Musical 1
+530 Saxo;1;Expresión Corporal
+530 Saxo;1;Danzas Folklóricas
+530 Saxo;1;Coro 1
+530 Saxo;1;Instrumento Fundamental 1: Saxo
+530 Saxo;2;Ensamble 1
+530 Saxo;2;Lenguaje Musical 2
+530 Saxo;2;Coro 2
+530 Saxo;2;Instrumento Fundamental 2: Saxo
+530 Saxo;3;Lenguaje Musical 3
+530 Saxo;3;Instrumento Fundamental 3: Saxo
+530 Saxo;3;Ensamble 2
+530 Saxo;3;Apreciación Musical 1
+530 Saxo;4;Optativa 1
+530 Saxo;4;Instrumento Fundamental 4: Saxo
+530 Saxo;4;Lenguaje Musical 4
+530 Saxo;4;Apreciación Musical 2
+530 Saxo;4;Ensamble 3
+530 Saxo;5;Ensamble 4
+530 Saxo;5;Instrumento Fundamental 5: Saxo
+530 Saxo;5;Seminario Armonía
+530 Saxo;5;Seminario Ritmo
+530 Saxo;5;Optativa 2
+530 Sikus - Quena;1;Danzas Folklóricas
+530 Sikus - Quena;1;Expresión Corporal
+530 Sikus - Quena;1;Lenguaje Musical 1
+530 Sikus - Quena;1;Coro 1
+530 Sikus - Quena;1;Instrumento Fundamental 1: Sikus-Quena
+530 Sikus - Quena;2;Instrumento Fundamental 2: Sikus-Quena
+530 Sikus - Quena;2;Coro 2
+530 Sikus - Quena;2;Lenguaje Musical 2
+530 Sikus - Quena;2;Ensamble 1
+530 Sikus - Quena;3;Apreciación Musical 1
+530 Sikus - Quena;3;Ensamble 2
+530 Sikus - Quena;3;Instrumento Fundamental 3: Sikus-Quena
+530 Sikus - Quena;3;Lenguaje Musical 3
+530 Sikus - Quena;4;Apreciación Musical 2
+530 Sikus - Quena;4;Ensamble 3
+530 Sikus - Quena;4;Instrumento Fundamental 4: Sikus-Quena
+530 Sikus - Quena;4;Lenguaje Musical 4
+530 Sikus - Quena;4;Optativa 1
+530 Sikus - Quena;5;Optativa 2
+530 Sikus - Quena;5;Instrumento Fundamental 5: Sikus-Quena
+530 Sikus - Quena;5;Seminario Armonía
+530 Sikus - Quena;5;Ensamble 4
+530 Sikus - Quena;5;Seminario Ritmo
+530 Trombón;1;Instrumento Fundamental 1: Trombón
+530 Trombón;1;Danzas Folklóricas
+530 Trombón;1;Coro 1
+530 Trombón;1;Expresión Corporal
+530 Trombón;1;Lenguaje Musical 1
+530 Trombón;2;Coro 2
+530 Trombón;2;Instrumento Fundamental 2: Trombón
+530 Trombón;2;Ensamble 1
+530 Trombón;2;Lenguaje Musical 2
+530 Trombón;3;Lenguaje Musical 3
+530 Trombón;3;Instrumento Fundamental 3: Trombón
+530 Trombón;3;Apreciación Musical 1
+530 Trombón;3;Ensamble 2
+530 Trombón;4;Apreciación Musical 2
+530 Trombón;4;Optativa 1
+530 Trombón;4;Ensamble 3
+530 Trombón;4;Instrumento Fundamental 4: Trombón
+530 Trombón;4;Lenguaje Musical 4
+530 Trombón;5;Instrumento Fundamental 5: Trombón
+530 Trombón;5;Seminario Ritmo
+530 Trombón;5;Ensamble 4
+530 Trombón;5;Optativa 2
+530 Trombón;5;Seminario Armonía
+530 Trompeta;1;Instrumento Fundamental 1: Trompeta
+530 Trompeta;1;Lenguaje Musical 1
+530 Trompeta;1;Danzas Folklóricas
+530 Trompeta;1;Coro 1
+530 Trompeta;1;Expresión Corporal
+530 Trompeta;2;Coro 2
+530 Trompeta;2;Ensamble 1
+530 Trompeta;2;Lenguaje Musical 2
+530 Trompeta;2;Instrumento Fundamental 2: Trompeta
+530 Trompeta;3;Instrumento Fundamental 3: Trompeta
+530 Trompeta;3;Ensamble 2
+530 Trompeta;3;Apreciación Musical 1
+530 Trompeta;3;Lenguaje Musical 3
+530 Trompeta;4;Ensamble 3
+530 Trompeta;4;Optativa 1
+530 Trompeta;4;Instrumento Fundamental 4: Trompeta
+530 Trompeta;4;Apreciación Musical 2
+530 Trompeta;4;Lenguaje Musical 4
+530 Trompeta;5;Optativa 2
+530 Trompeta;5;Instrumento Fundamental 5: Trompeta
+530 Trompeta;5;Seminario Armonía
+530 Trompeta;5;Ensamble 4
+530 Trompeta;5;Seminario Ritmo
+530 Viola;1;Lenguaje Musical 1
+530 Viola;1;Instrumento Fundamental 1: Viola
+530 Viola;1;Expresión Corporal
+530 Viola;1;Danzas Folklóricas
+530 Viola;1;Coro 1
+530 Viola;2;Ensamble 1
+530 Viola;2;Coro 2
+530 Viola;2;Lenguaje Musical 2
+530 Viola;2;Instrumento Fundamental 2: Viola
+530 Viola;3;Apreciación Musical 1
+530 Viola;3;Lenguaje Musical 3
+530 Viola;3;Instrumento Fundamental 3: Viola
+530 Viola;3;Ensamble 2
+530 Viola;4;Ensamble 3
+530 Viola;4;Optativa 1
+530 Viola;4;Instrumento Fundamental 4: Viola
+530 Viola;4;Apreciación Musical 2
+530 Viola;4;Lenguaje Musical 4
+530 Viola;5;Seminario Armonía
+530 Viola;5;Ensamble 4
+530 Viola;5;Seminario Ritmo
+530 Viola;5;Instrumento Fundamental 5: Viola
+530 Viola;5;Optativa 2
+530 Violín;1;Lenguaje Musical 1
+530 Violín;1;Expresión Corporal
+530 Violín;1;Danzas Folklóricas
+530 Violín;1;Instrumento Fundamental 1: Violín
+530 Violín;1;Coro 1
+530 Violín;2;Lenguaje Musical 2
+530 Violín;2;Ensamble 1
+530 Violín;2;Coro 2
+530 Violín;2;Instrumento Fundamental 2: Violín
+530 Violín;3;Lenguaje Musical 3
+530 Violín;3;Apreciación Musical 1
+530 Violín;3;Instrumento Fundamental 3: Violín
+530 Violín;3;Ensamble 2
+530 Violín;4;Ensamble 3
+530 Violín;4;Lenguaje Musical 4
+530 Violín;4;Apreciación Musical 2
+530 Violín;4;Optativa 1
+530 Violín;4;Instrumento Fundamental 4: Violín
+530 Violín;5;Ensamble 4
+530 Violín;5;Optativa 2
+530 Violín;5;Instrumento Fundamental 5: Violín
+530 Violín;5;Seminario Ritmo
+530 Violín;5;Seminario Armonía
+530 Violoncello;1;Instrumento Fundamental 1: Violoncello
+530 Violoncello;1;Lenguaje Musical 1
+530 Violoncello;1;Coro 1
+530 Violoncello;1;Danzas Folklóricas
+530 Violoncello;1;Expresión Corporal
+530 Violoncello;2;Coro 2
+530 Violoncello;2;Lenguaje Musical 2
+530 Violoncello;2;Ensamble 1
+530 Violoncello;2;Instrumento Fundamental 2: Violoncello
+530 Violoncello;3;Lenguaje Musical 3
+530 Violoncello;3;Instrumento Fundamental 3: Violoncello
+530 Violoncello;3;Apreciación Musical 1
+530 Violoncello;3;Ensamble 2
+530 Violoncello;4;Lenguaje Musical 4
+530 Violoncello;4;Apreciación Musical 2
+530 Violoncello;4;Optativa 1
+530 Violoncello;4;Ensamble 3
+530 Violoncello;4;Instrumento Fundamental 4: Violoncello
+530 Violoncello;5;Seminario Ritmo
+530 Violoncello;5;Seminario Armonía
+530 Violoncello;5;Optativa 2
+530 Violoncello;5;Ensamble 4
+530 Violoncello;5;Instrumento Fundamental 5: Violoncello
+532 Canto;1;Expresión Corporal
+532 Canto;1;Educación Vocal
+532 Canto;1;Canto 1
+532 Canto;1;Dicción Italiana 1
+532 Canto;1;Lenguaje Musical 1
+532 Canto;2;Ensamble 1
+532 Canto;2;Coro 2
+532 Canto;2;Lenguaje Musical 2
+532 Canto;2;Dicción Italiana 2
+532 Canto;2;Canto 2
+532 Canto;3;Canto 3
+532 Canto;3;Ensamble 2
+532 Canto;3;Apreciación Musical 1
+532 Canto;3;Dicción Alemana 1
+532 Canto;3;Entrenamiento Escénico
+532 Canto;3;Lenguaje Musical 3
+532 Canto;4;Ensamble 3
+532 Canto;4;Lenguaje Musical 4
+532 Canto;4;Apreciación Musical 2
+532 Canto;4;Optativa 1
+532 Canto;4;Dicción Alemana 2
+532 Canto;4;Canto 4
+532 Canto;5;Canto 5
+532 Canto;5;Ensamble 4
+532 Canto;5;Seminario Ritmo
+532 Canto;5;Seminario Armonía
+532 Canto;5;Optativa 2
+533 Canto Popular;1;Lenguaje Musical 1
+533 Canto Popular;1;Dicción Portuguesa 1
+533 Canto Popular;1;Canto Popular 1
+533 Canto Popular;1;Educación Vocal
+533 Canto Popular;1;Expresión Corporal
+533 Canto Popular;2;Coro 2
+533 Canto Popular;2;Dicción Portuguesa 2
+533 Canto Popular;2;Lenguaje Musical 2
+533 Canto Popular;2;Canto Popular 2
+533 Canto Popular;2;Ensamble 1
+533 Canto Popular;3;Apreciación Musical 1
+533 Canto Popular;3;Danzas Folklóricas
+533 Canto Popular;3;Ensamble 2
+533 Canto Popular;3;Dicción Inglesa 1
+533 Canto Popular;3;Lenguaje Musical 3
+533 Canto Popular;3;Canto Popular 3
+533 Canto Popular;4;Lenguaje Musical 4
+533 Canto Popular;4;Ensamble 3
+533 Canto Popular;4;Optativa 1
+533 Canto Popular;4;Apreciación Musical 2
+533 Canto Popular;4;Dicción Inglesa 2
+533 Canto Popular;4;Canto Popular 4
+533 Canto Popular;5;Seminario Ritmo
+533 Canto Popular;5;Canto Popular 5
+533 Canto Popular;5;Seminario Armonía
+533 Canto Popular;5;Ensamble 4
+533 Canto Popular;5;Optativa 2
+535 Módulo Pedagógico;4;Pedagogía General
+535 Módulo Pedagógico;4;Didáctica General
+535 Módulo Pedagógico;5;Didáctica Especializada
