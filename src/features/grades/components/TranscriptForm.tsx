@@ -142,28 +142,34 @@ export default function TranscriptForm({ onClose }: { onClose: () => void }) {
         setSuccessMsg('');
 
         try {
+            // Validar notas antes de procesar
+            const invalidGrade = rows.find(r => {
+                if (r.nota_valor.trim() === '') return false;
+                const n = parseFloat(r.nota_valor);
+                return isNaN(n) || n < 1 || n > 10;
+            });
+
+            if (invalidGrade) {
+                setError(`La nota para "${invalidGrade.nombre_materia}" debe estar entre 1 y 10.`);
+                setSubmitting(false);
+                return;
+            }
+
             // Solo enviar las que tienen nota
+            // Omitimos el id para que el upsert se maneje por la restricción UNIQUE(dni, nombre_materia)
             const notasParaGuardar: Nota[] = rows
                 .filter(r => r.nota_valor.trim() !== '')
-                .map(r => {
-                    const notaObj: Nota = {
-                        perfil_id: studentData.profile.id,
-                        dni: dni,
-                        nombre_materia: r.nombre_materia,
-                        materia_id: r.id,
-                        nota: r.nota_valor,
-                        condicion: r.condicion,
-                        fecha: r.fecha,
-                        libro_folio: r.libro_folio,
-                        obs_optativa_ensamble: r.obs_optativa_ensamble
-                    };
-
-                    if (r.nota_id) {
-                        notaObj.id = r.nota_id;
-                    }
-
-                    return notaObj;
-                });
+                .map(r => ({
+                    perfil_id: studentData.profile.id,
+                    dni: dni,
+                    nombre_materia: r.nombre_materia,
+                    materia_id: r.id,
+                    nota: r.nota_valor,
+                    condicion: r.condicion,
+                    fecha: r.fecha,
+                    libro_folio: r.libro_folio,
+                    obs_optativa_ensamble: r.obs_optativa_ensamble
+                }));
 
             await upsertNotasBulk(notasParaGuardar);
             setSuccessMsg('Analítico actualizado con éxito.');
@@ -288,7 +294,10 @@ export default function TranscriptForm({ onClose }: { onClose: () => void }) {
                                                     </td>
                                                     <td className="px-6 py-4">
                                                         <input
-                                                            type="text"
+                                                            type="number"
+                                                            min="1"
+                                                            max="10"
+                                                            step="0.1"
                                                             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-2 py-3 text-sm font-black text-slate-900 text-center focus:ring-2 focus:ring-indigo-100 outline-none uppercase"
                                                             value={row.nota_valor}
                                                             onChange={(e) => handleRowChange(idx, 'nota_valor', e.target.value)}
