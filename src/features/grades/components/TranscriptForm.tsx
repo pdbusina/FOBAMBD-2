@@ -145,12 +145,13 @@ export default function TranscriptForm({ onClose }: { onClose: () => void }) {
             // Validar notas antes de procesar
             const invalidGrade = rows.find(r => {
                 if (r.nota_valor.trim() === '') return false;
-                const n = parseFloat(r.nota_valor);
-                return isNaN(n) || n < 1 || n > 10;
+                const n = Number(r.nota_valor);
+                // Debe ser un número entero entre 1 y 10
+                return isNaN(n) || !Number.isInteger(n) || n < 1 || n > 10;
             });
 
             if (invalidGrade) {
-                setError(`La nota para "${invalidGrade.nombre_materia}" debe estar entre 1 y 10.`);
+                setError(`La nota para "${invalidGrade.nombre_materia}" debe ser un número entero entre 1 y 10.`);
                 setSubmitting(false);
                 return;
             }
@@ -297,7 +298,7 @@ export default function TranscriptForm({ onClose }: { onClose: () => void }) {
                                                             type="number"
                                                             min="1"
                                                             max="10"
-                                                            step="0.1"
+                                                            step="1"
                                                             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-2 py-3 text-sm font-black text-slate-900 text-center focus:ring-2 focus:ring-indigo-100 outline-none uppercase"
                                                             value={row.nota_valor}
                                                             onChange={(e) => handleRowChange(idx, 'nota_valor', e.target.value)}

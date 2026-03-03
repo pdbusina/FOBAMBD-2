@@ -116,6 +116,14 @@ export default function GradeEntryForm({ onClose }: { onClose: () => void }) {
         setSuccessMsg('');
 
         try {
+            // Validar nota (entero entre 1 y 10)
+            const n = Number(notaValue);
+            if (isNaN(n) || !Number.isInteger(n) || n < 1 || n > 10) {
+                setError('La nota debe ser un número entero entre 1 y 10.');
+                setSubmitting(false);
+                return;
+            }
+
             const nota: Nota = {
                 id: existingNota?.id,
                 perfil_id: studentData.profile.id,
@@ -289,9 +297,12 @@ export default function GradeEntryForm({ onClose }: { onClose: () => void }) {
                                     <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Nota</label>
                                     <input
                                         required
-                                        type="text"
-                                        placeholder="Ej: 8 (Ocho)"
-                                        className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-indigo-50 focus:border-indigo-500 font-bold text-slate-900 uppercase"
+                                        type="number"
+                                        min="1"
+                                        max="10"
+                                        step="1"
+                                        placeholder="1-10"
+                                        className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-indigo-50 font-black text-slate-900 focus:border-indigo-500 outline-none transition-all placeholder:font-bold"
                                         value={notaValue}
                                         onChange={(e) => setNotaValue(e.target.value)}
                                     />

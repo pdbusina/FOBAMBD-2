@@ -142,6 +142,18 @@ export default function GradeSheetForm({ onClose }: { onClose: () => void }) {
         setSuccessMsg('');
 
         try {
+            // Validar que todas las notas sean enteras del 1 al 10
+            const invalidGrade = rows.find(r => {
+                const n = Number(r.nota);
+                return isNaN(n) || !Number.isInteger(n) || n < 1 || n > 10;
+            });
+
+            if (invalidGrade) {
+                setError(`La nota para el DNI ${invalidGrade.dni} debe ser un número entero entre 1 y 10.`);
+                setSubmitting(false);
+                return;
+            }
+
             const notasParaGuardar: Nota[] = rows.map(row => ({
                 perfil_id: row.perfil_id,
                 dni: row.dni,
@@ -312,10 +324,13 @@ export default function GradeSheetForm({ onClose }: { onClose: () => void }) {
                                                     {row.apellido && row.nombre ? `${row.apellido}, ${row.nombre}` : '- Elija un DNI -'}
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-3">
+                                            <td className="px-6 py-3 relative group">
                                                 <input
                                                     required
-                                                    type="text"
+                                                    type="number"
+                                                    min="1"
+                                                    max="10"
+                                                    step="1"
                                                     placeholder="Ej: 8"
                                                     className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-900 focus:ring-2 focus:ring-indigo-100 transition-all outline-none uppercase text-center"
                                                     value={row.nota}
