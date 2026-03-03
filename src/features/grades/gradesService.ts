@@ -165,27 +165,18 @@ export async function getNotasExistentesBulk(dnis: string[], nombreMateria: stri
     return data;
 }
 
-export async function getTranscriptData(dni: string, planId: string) {
-    // 1. Obtener el plan para saber el nombre del plan_estudios
-    const { data: plan, error: planError } = await supabase
-        .from('instrumentos_planes')
-        .select('plan_estudios')
-        .eq('id', planId)
-        .single();
-
-    if (planError) throw planError;
-
-    // 2. Obtener todas las materias de ese plan
+export async function getTranscriptData(dni: string, planEstudios: string) {
+    // 1. Obtener todas las materias de ese plan
     const { data: materias, error: matError } = await supabase
         .from('materias')
         .select('*')
-        .eq('plan_estudios', plan.plan_estudios)
+        .eq('plan_estudios', planEstudios)
         .order('anio', { ascending: true })
         .order('nombre_materia', { ascending: true });
 
     if (matError) throw matError;
 
-    // 3. Obtener todas las notas del alumno (por DNI)
+    // 2. Obtener todas las notas del alumno (por DNI)
     const { data: notas, error: notasError } = await supabase
         .from('notas')
         .select('*')

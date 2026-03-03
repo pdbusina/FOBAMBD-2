@@ -65,13 +65,33 @@ export default function TranscriptForm({ onClose }: { onClose: () => void }) {
     }, [selectedPlanId]);
 
     const loadTranscript = async () => {
+        if (!selectedPlanId) return;
         setLoadingTranscript(true);
         setError('');
+        console.log("Loading transcript for DNI:", dni, "Plan ID:", selectedPlanId);
+
         try {
-            const data = await getTranscriptData(dni, selectedPlanId);
+            const enrollment = studentData.enrollments.find((e: any) => e.plan_id === selectedPlanId);
+            if (!enrollment) {
+                console.warn("Enrollment not found for ID:", selectedPlanId);
+                setError('No se pudo encontrar la información del plan seleccionado.');
+                return;
+            }
+
+            console.log("Fetching transcript for Plan Estudios:", enrollment.nombre_plan);
+            const data = await getTranscriptData(dni, enrollment.nombre_plan);
             const { materias, notas } = data;
 
+            console.log(`Found ${materias.length} materias and ${notas.length} notas for student.`);
+
+            if (materias.length === 0) {
+                setError(`No se encontraron materias configuradas para el plan "${enrollment.nombre_plan}" (${enrollment.plan_estudios}).`);
+                setRows([]);
+                return;
+            }
+
             // Mapear materias a filas con sus respectivas notas si existen
+            // Las notas se buscan solo por DNI (ya filtrado en el servicio) y nombre_materia
             let transcriptRows: TranscriptRow[] = materias.map(m => {
                 const nota = notas.find(n => n.nombre_materia === m.nombre_materia);
                 return {
@@ -87,27 +107,23 @@ export default function TranscriptForm({ onClose }: { onClose: () => void }) {
             });
 
             // Lógica de Exclusión Plan 530 - 1er Año
-            // "Expresión Corporal" y "Danzas Folklóricas" son excluyentes.
-            const planNombre = studentData.enrollments.find((e: any) => e.plan_id === selectedPlanId)?.plan_estudios || '';
+            const planNombre = enrollment.plan_estudios || '';
 
             if (planNombre.startsWith('530')) {
                 const expCorp = transcriptRows.find(r => r.anio === 1 && r.nombre_materia === 'Expresión Corporal');
                 const danzFolk = transcriptRows.find(r => r.anio === 1 && r.nombre_materia === 'Danzas Folklóricas');
 
                 if (expCorp?.existing && !danzFolk?.existing) {
-                    // Si tiene nota en Expresión Corporal, ocultar Danzas Folklóricas
                     transcriptRows = transcriptRows.filter(r => !(r.anio === 1 && r.nombre_materia === 'Danzas Folklóricas'));
                 } else if (!expCorp?.existing && danzFolk?.existing) {
-                    // Si tiene nota en Danzas Folklóricas, ocultar Expresión Corporal
                     transcriptRows = transcriptRows.filter(r => !(r.anio === 1 && r.nombre_materia === 'Expresión Corporal'));
                 }
-                // Si ninguna tiene nota, se muestran ambas hasta que se cargue una.
-                // Si AMBAS tienen nota (caso raro de error previo), se muestran ambas para corrección.
             }
 
             setRows(transcriptRows);
         } catch (err: any) {
-            setError('Error al cargar analítico: ' + err.message);
+            console.error("Error in loadTranscript:", err);
+            setError('Error al cargar analítico: ' + (err.message || 'Error desconocido'));
         } finally {
             setLoadingTranscript(false);
         }
@@ -129,18 +145,25 @@ export default function TranscriptForm({ onClose }: { onClose: () => void }) {
             // Solo enviar las que tienen nota
             const notasParaGuardar: Nota[] = rows
                 .filter(r => r.nota_valor.trim() !== '')
-                .map(r => ({
-                    id: r.nota_id,
-                    perfil_id: studentData.profile.id,
-                    dni: dni,
-                    nombre_materia: r.nombre_materia,
-                    materia_id: r.id,
-                    nota: r.nota_valor,
-                    condicion: r.condicion,
-                    fecha: r.fecha,
-                    libro_folio: r.libro_folio,
-                    obs_optativa_ensamble: r.obs_optativa_ensamble
-                }));
+                .map(r => {
+                    const notaObj: Nota = {
+                        perfil_id: studentData.profile.id,
+                        dni: dni,
+                        nombre_materia: r.nombre_materia,
+                        materia_id: r.id,
+                        nota: r.nota_valor,
+                        condicion: r.condicion,
+                        fecha: r.fecha,
+                        libro_folio: r.libro_folio,
+                        obs_optativa_ensamble: r.obs_optativa_ensamble
+                    };
+
+                    if (r.nota_id) {
+                        notaObj.id = r.nota_id;
+                    }
+
+                    return notaObj;
+                });
 
             await upsertNotasBulk(notasParaGuardar);
             setSuccessMsg('Analítico actualizado con éxito.');
