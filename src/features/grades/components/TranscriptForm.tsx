@@ -189,42 +189,36 @@ export default function TranscriptForm({ onClose }: { onClose: () => void }) {
     };
 
     return (
-        <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-100 max-w-7xl w-full mx-auto animate-in fade-in zoom-in duration-500 overflow-hidden">
-            <div className="flex justify-between items-center mb-10 pb-8 border-b border-slate-50">
+        <div className="bg-white p-4 md:p-6 rounded-[1.5rem] shadow-xl border border-slate-100 max-w-7xl w-full mx-auto animate-in fade-in zoom-in duration-500 overflow-hidden">
+            <div className="flex justify-between items-center mb-4 pb-2 border-b border-slate-50">
                 <div>
-                    <h2 className="text-2xl font-bold text-slate-900 tracking-tight">Carga de Analítico</h2>
-                    <p className="text-xs font-medium text-slate-400 mt-1 uppercase tracking-widest">Gestión completa del historial académico</p>
+                    <h2 className="text-lg font-bold text-slate-900 tracking-tight leading-none">Carga de Analítico</h2>
                 </div>
-                <button onClick={onClose} className="text-slate-400 hover:text-slate-900 transition-colors p-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <button onClick={onClose} className="text-slate-400 hover:text-slate-900 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
 
             {/* Búsqueda */}
-            <form onSubmit={handleSearch} className="mb-10 flex flex-col md:flex-row gap-4">
+            <form onSubmit={handleSearch} className="mb-4 flex flex-col md:flex-row gap-2">
                 <div className="flex-1 relative group">
                     <input
                         required
                         type="text"
-                        placeholder="DNI DEL ESTUDIANTE..."
-                        className="w-full px-6 py-5 bg-slate-50 border border-slate-200 rounded-[2rem] focus:ring-4 focus:ring-indigo-50 focus:border-indigo-500 font-bold text-slate-900 transition-all outline-none"
+                        placeholder="DNI..."
+                        className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-indigo-50 focus:border-indigo-500 font-bold text-slate-900 transition-all outline-none text-xs"
                         value={dni}
                         onChange={(e) => setDni(e.target.value)}
                     />
-                    <div className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-indigo-500 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </div>
                 </div>
                 <button
                     type="submit"
                     disabled={searching}
-                    className="px-10 py-5 bg-slate-900 text-white rounded-[2rem] font-bold hover:bg-slate-800 transition-all shadow-xl shadow-slate-100 uppercase tracking-widest text-xs disabled:opacity-50"
+                    className="px-6 py-2 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 transition-all shadow-lg uppercase tracking-widest text-[9px] disabled:opacity-50"
                 >
-                    {searching ? 'BUSCANDO...' : 'BUSCAR ALUMNO'}
+                    {searching ? '...' : 'BUSCAR'}
                 </button>
             </form>
 
@@ -232,25 +226,24 @@ export default function TranscriptForm({ onClose }: { onClose: () => void }) {
             {successMsg && <p className="mb-6 p-4 bg-green-50 text-green-600 rounded-2xl text-xs font-bold uppercase border border-green-100">{successMsg}</p>}
 
             {studentData && (
-                <div className="space-y-10 animate-in slide-in-from-top-4 duration-500">
+                <div className="space-y-4 animate-in slide-in-from-top-4 duration-500">
                     {/* Info Alumno */}
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center p-8 bg-indigo-50/50 rounded-[2rem] border border-indigo-100 gap-6">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center p-3 bg-indigo-50/50 rounded-xl border border-indigo-100 gap-3">
                         <div>
-                            <p className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-1">Perfil del Estudiante</p>
-                            <h3 className="text-xl font-black text-slate-900 uppercase">
+                            <h3 className="text-[13px] font-black text-slate-900 uppercase leading-none">
                                 {studentData.profile.apellido}, {studentData.profile.nombre}
+                                <span className="ml-2 text-[11px] font-bold text-indigo-600 normal-case">DNI: {dni}</span>
                             </h3>
-                            <p className="text-sm font-bold text-indigo-600">DNI: {dni}</p>
                         </div>
 
-                        <div className="flex flex-col gap-2 w-full md:w-auto">
-                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Plan de Estudios</label>
+                        <div className="flex items-center gap-2 w-full md:w-auto">
+                            <label className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Plan:</label>
                             <select
-                                className="px-5 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-indigo-50 font-bold text-slate-900 uppercase shadow-sm outline-none"
+                                className="px-3 py-1 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-50 font-bold text-slate-900 uppercase shadow-sm outline-none text-[10px]"
                                 value={selectedPlanId}
                                 onChange={(e) => setSelectedPlanId(e.target.value)}
                             >
-                                <option value="">-- SELECCIONE UN PLAN --</option>
+                                <option value="">-- SELECCIONAR --</option>
                                 {studentData.enrollments.map((en: any) => (
                                     <option key={en.plan_id} value={en.plan_id}>
                                         {en.nombre_plan} ({en.plan_estudios})
@@ -262,82 +255,80 @@ export default function TranscriptForm({ onClose }: { onClose: () => void }) {
 
                     {/* Analítico */}
                     {loadingTranscript ? (
-                        <div className="flex justify-center p-20">
-                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+                        <div className="flex justify-center p-8">
+                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
                         </div>
                     ) : (
                         rows.length > 0 && (
-                            <form onSubmit={handleSubmit} className="space-y-8">
-                                <div className="overflow-x-auto rounded-[2.5rem] border border-slate-100 shadow-sm bg-white">
+                            <form onSubmit={handleSubmit} className="space-y-4">
+                                <div className="overflow-x-auto rounded-xl border border-slate-100 shadow-sm bg-white">
                                     <table className="w-full text-left border-collapse">
                                         <thead>
                                             <tr className="bg-slate-50 border-b border-slate-100">
-                                                <th className="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest w-12 text-center">Año</th>
-                                                <th className="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest min-w-[200px]">Materia</th>
-                                                <th className="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest w-24 text-center">Nota</th>
-                                                <th className="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest w-48">Condición</th>
-                                                <th className="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest w-40">Fecha</th>
-                                                <th className="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest w-32">Libro/Folio</th>
-                                                <th className="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Observaciones</th>
+                                                <th className="px-2 py-1.5 text-[9px] font-bold text-slate-400 uppercase tracking-tighter w-8 text-center">Año</th>
+                                                <th className="px-2 py-1.5 text-[9px] font-bold text-slate-400 uppercase tracking-tighter min-w-[150px]">Materia</th>
+                                                <th className="px-2 py-1.5 text-[9px] font-bold text-slate-400 uppercase tracking-tighter w-14 text-center">Nota</th>
+                                                <th className="px-2 py-1.5 text-[9px] font-bold text-slate-400 uppercase tracking-tighter w-28">Condición</th>
+                                                <th className="px-2 py-1.5 text-[9px] font-bold text-slate-400 uppercase tracking-tighter w-28">Fecha</th>
+                                                <th className="px-2 py-1.5 text-[9px] font-bold text-slate-400 uppercase tracking-tighter w-20">L/F</th>
+                                                <th className="px-2 py-1.5 text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Obs</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-slate-50">
                                             {rows.map((row, idx) => (
                                                 <tr key={idx} className={`hover:bg-slate-50 transition-colors ${row.existing ? 'bg-green-50/20' : ''}`}>
-                                                    <td className="px-6 py-4">
-                                                        <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-xs font-black text-slate-600">
-                                                            {row.anio}
-                                                        </div>
+                                                    <td className="px-2 py-1 text-center">
+                                                        <span className="text-[10px] font-black text-slate-400">{row.anio}</span>
                                                     </td>
-                                                    <td className="px-6 py-4">
-                                                        <p className="text-sm font-bold text-slate-900 uppercase leading-tight">{row.nombre_materia}</p>
-                                                        {row.existing && <span className="text-[9px] font-bold text-green-600 uppercase tracking-tighter bg-green-50 px-1.5 py-0.5 rounded border border-green-100 inline-block mt-1">Cargada</span>}
+                                                    <td className="px-2 py-1">
+                                                        <p className="text-[11px] font-bold text-slate-900 uppercase leading-none">{row.nombre_materia}</p>
+                                                        {row.existing && <span className="text-[7px] font-black text-green-600 uppercase tracking-tighter bg-green-50 px-1 py-0 rounded border border-green-100 inline-block">V</span>}
                                                     </td>
-                                                    <td className="px-6 py-4">
+                                                    <td className="px-2 py-1">
                                                         <input
                                                             type="number"
                                                             min="1"
                                                             max="10"
                                                             step="1"
-                                                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-2 py-3 text-sm font-black text-slate-900 text-center focus:ring-2 focus:ring-indigo-100 outline-none uppercase"
+                                                            className="w-full bg-slate-50 border border-slate-200 rounded px-1 py-0.5 text-xs font-black text-slate-900 text-center focus:ring-1 focus:ring-indigo-100 outline-none"
                                                             value={row.nota_valor}
                                                             onChange={(e) => handleRowChange(idx, 'nota_valor', e.target.value)}
                                                         />
                                                     </td>
-                                                    <td className="px-6 py-4">
+                                                    <td className="px-2 py-1">
                                                         <select
-                                                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-3 text-xs font-bold text-slate-900 focus:ring-2 focus:ring-indigo-100 outline-none uppercase"
+                                                            className="w-full bg-slate-50 border border-slate-200 rounded px-1 py-0.5 text-[9px] font-bold text-slate-900 focus:ring-1 focus:ring-indigo-100 outline-none uppercase"
                                                             value={row.condicion}
                                                             onChange={(e: any) => handleRowChange(idx, 'condicion', e.target.value)}
                                                         >
-                                                            <option value="promoción">PROMOCIÓN</option>
-                                                            <option value="examen">EXAMEN</option>
-                                                            <option value="equivalencia">EQUIVALENCIA</option>
+                                                            <option value="promoción">PROM</option>
+                                                            <option value="examen">EXAM</option>
+                                                            <option value="equivalencia">EQUIV</option>
                                                         </select>
                                                     </td>
-                                                    <td className="px-6 py-4">
+                                                    <td className="px-2 py-1">
                                                         <input
                                                             type="date"
-                                                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-3 text-xs font-bold text-slate-900 focus:ring-2 focus:ring-indigo-100 outline-none"
+                                                            className="w-full bg-slate-50 border border-slate-200 rounded px-1 py-0.5 text-[9px] font-bold text-slate-900 focus:ring-1 focus:ring-indigo-100 outline-none"
                                                             value={row.fecha}
                                                             onChange={(e) => handleRowChange(idx, 'fecha', e.target.value)}
                                                         />
                                                     </td>
-                                                    <td className="px-6 py-4">
+                                                    <td className="px-2 py-1">
                                                         <input
                                                             type="text"
                                                             placeholder="..."
-                                                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-3 text-xs font-bold text-slate-900 focus:ring-2 focus:ring-indigo-100 outline-none uppercase"
+                                                            className="w-full bg-slate-50 border border-slate-200 rounded px-1 py-0.5 text-[9px] font-bold text-slate-900 focus:ring-1 focus:ring-indigo-100 outline-none uppercase"
                                                             value={row.libro_folio}
                                                             onChange={(e) => handleRowChange(idx, 'libro_folio', e.target.value)}
                                                         />
                                                     </td>
-                                                    <td className="px-6 py-4">
+                                                    <td className="px-2 py-1">
                                                         {(isOptativaOEnsamble(row.nombre_materia)) && (
                                                             <input
                                                                 type="text"
-                                                                placeholder="Faltan datos..."
-                                                                className="w-full bg-white border border-indigo-100 rounded-xl px-3 py-3 text-xs font-bold text-slate-900 focus:ring-2 focus:ring-indigo-100 outline-none uppercase"
+                                                                placeholder="..."
+                                                                className="w-full bg-white border border-indigo-50 rounded px-1 py-0.5 text-[9px] font-bold text-slate-900 focus:ring-1 focus:ring-indigo-100 outline-none uppercase"
                                                                 value={row.obs_optativa_ensamble}
                                                                 onChange={(e) => handleRowChange(idx, 'obs_optativa_ensamble', e.target.value)}
                                                             />
@@ -349,20 +340,20 @@ export default function TranscriptForm({ onClose }: { onClose: () => void }) {
                                     </table>
                                 </div>
 
-                                <div className="pt-8 sticky bottom-0 bg-white/80 backdrop-blur-md py-6 border-t border-slate-100 flex gap-4">
+                                <div className="pt-4 sticky bottom-0 bg-white/95 backdrop-blur-md py-2 border-t border-slate-100 flex gap-2">
                                     <button
                                         type="submit"
                                         disabled={submitting}
-                                        className="flex-1 py-5 bg-slate-900 text-white rounded-[2rem] font-bold hover:bg-slate-800 transition-all shadow-xl shadow-slate-100 uppercase tracking-widest text-xs disabled:opacity-50"
+                                        className="flex-1 py-2.5 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 transition-all shadow-lg uppercase tracking-widest text-[9px] disabled:opacity-50"
                                     >
-                                        {submitting ? 'GUARDANDO CAMBIOS...' : 'ACTUALIZAR ANALÍTICO COMPLETO'}
+                                        {submitting ? '...' : 'ACTUALIZAR ANALÍTICO'}
                                     </button>
                                     <button
                                         type="button"
                                         onClick={onClose}
-                                        className="px-10 py-5 bg-white text-slate-400 border border-slate-200 rounded-[2rem] font-bold hover:bg-slate-50 transition-all uppercase tracking-widest text-xs"
+                                        className="px-6 py-2.5 bg-white text-slate-400 border border-slate-200 rounded-xl font-bold hover:bg-slate-50 transition-all uppercase tracking-widest text-[9px]"
                                     >
-                                        CANCELAR
+                                        SALIR
                                     </button>
                                 </div>
                             </form>
