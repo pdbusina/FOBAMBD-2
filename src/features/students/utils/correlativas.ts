@@ -48,50 +48,69 @@ export const getReglasPorPlan = (nombrePlan: string): ReglasPlan => {
         nombrePlanNorm.includes(normalizarTexto(inst))
     );
 
+    let main1, main2, main3, main4, main5;
+
     if (instrumentoEncontrado) {
         esPlan530 = true;
         
         // Mantener el nombre exacto del instrumento para armar el string
         const instrumento = INSTRUMENTOS_530.find(i => normalizarTexto(i) === normalizarTexto(instrumentoEncontrado))!;
 
-        const I1 = `Instrumento Fundamental 1: ${instrumento}`;
-        const I2 = `Instrumento Fundamental 2: ${instrumento}`;
-        const I3 = `Instrumento Fundamental 3: ${instrumento}`;
-        const I4 = `Instrumento Fundamental 4: ${instrumento}`;
-        const I5 = `Instrumento Fundamental 5: ${instrumento}`;
+        main1 = `Instrumento Fundamental 1: ${instrumento}`;
+        main2 = `Instrumento Fundamental 2: ${instrumento}`;
+        main3 = `Instrumento Fundamental 3: ${instrumento}`;
+        main4 = `Instrumento Fundamental 4: ${instrumento}`;
+        main5 = `Instrumento Fundamental 5: ${instrumento}`;
+    } else if (nombrePlanNorm.includes("canto popular")) {
+        main1 = "Canto Popular 1";
+        main2 = "Canto Popular 2";
+        main3 = "Canto Popular 3";
+        main4 = "Canto Popular 4";
+        main5 = "Canto Popular 5";
+    } else if (nombrePlanNorm.includes("canto")) {
+        main1 = "Canto 1";
+        main2 = "Canto 2";
+        main3 = "Canto 3";
+        main4 = "Canto 4";
+        main5 = "Canto 5";
+    }
 
+    if (main1 && main2 && main3 && main4 && main5) {
         // AÑO 2
-        const reqAno2 = [I1, "Lenguaje Musical 1"];
-        reglas[I2] = reqAno2;
-        reglas["Lenguaje Musical 2"] = reqAno2;
-        reglas["Ensamble 1"] = reqAno2;
-        reglas["Coro 2"] = ["Coro 1"];
+        const reqAno2 = [main1, "Lenguaje Musical 1"];
+        if (!reglas[main2]) reglas[main2] = reqAno2;
+        if (!reglas["Lenguaje Musical 2"]) reglas["Lenguaje Musical 2"] = reqAno2;
+        if (!reglas["Ensamble 1"]) reglas["Ensamble 1"] = reqAno2;
+        if (!reglas["Coro 2"]) reglas["Coro 2"] = ["Coro 1"];
 
         // AÑO 3
-        const reqAno3 = [I2, "Lenguaje Musical 2", "Ensamble 1"];
-        reglas[I3] = reqAno3;
-        reglas["Lenguaje Musical 3"] = reqAno3;
-        reglas["Ensamble 2"] = reqAno3;
-        reglas["Apreciación Musical 1"] = [I1, "Lenguaje Musical 2"];
+        const reqAno3 = [main2, "Lenguaje Musical 2", "Ensamble 1"];
+        if (!reglas[main3]) reglas[main3] = reqAno3;
+        if (!reglas["Lenguaje Musical 3"]) reglas["Lenguaje Musical 3"] = reqAno3;
+        if (!reglas["Ensamble 2"]) reglas["Ensamble 2"] = reqAno3;
+        if (!reglas["Apreciación Musical 1"]) reglas["Apreciación Musical 1"] = [main1, "Lenguaje Musical 2"];
 
         // AÑO 4
+        // En plan 530, se pide Expresión Corporal o Danzas Folklóricas (conmutables).
+        // En otros planes, las materias obligatorias específicas varían, así que usamos el arreglo estándar 
+        // y la lógica de conmutación de analyzeCorrelativas evaluará esPlan530.
         const reqAno4 = [
-            I3, "Lenguaje Musical 3", "Ensamble 2", 
+            main3, "Lenguaje Musical 3", "Ensamble 2", 
             "Apreciación Musical 1", "Expresión Corporal", "Danzas Folklóricas"
         ];
-        reglas[I4] = reqAno4;
-        reglas["Lenguaje Musical 4"] = reqAno4;
-        reglas["Ensamble 3"] = reqAno4;
-        reglas["Apreciación Musical 2"] = reqAno4;
-        reglas["Optativa 1"] = reqAno4;
+        if (!reglas[main4]) reglas[main4] = reqAno4;
+        if (!reglas["Lenguaje Musical 4"]) reglas["Lenguaje Musical 4"] = reqAno4;
+        if (!reglas["Ensamble 3"]) reglas["Ensamble 3"] = reqAno4;
+        if (!reglas["Apreciación Musical 2"]) reglas["Apreciación Musical 2"] = reqAno4;
+        if (!reglas["Optativa 1"]) reglas["Optativa 1"] = reqAno4;
 
         // AÑO 5
-        const reqAno5 = [I4, "Lenguaje Musical 4", "Ensamble 3"];
-        reglas[I5] = reqAno5;
-        reglas["Seminario Armonía"] = reqAno5;
-        reglas["Seminario Ritmo"] = reqAno5;
-        reglas["Ensamble 4"] = reqAno5;
-        reglas["Optativa 2"] = ["Optativa 1"];
+        const reqAno5 = [main4, "Lenguaje Musical 4", "Ensamble 3"];
+        if (!reglas[main5]) reglas[main5] = reqAno5;
+        if (!reglas["Seminario Armonía"]) reglas["Seminario Armonía"] = reqAno5;
+        if (!reglas["Seminario Ritmo"]) reglas["Seminario Ritmo"] = reqAno5;
+        if (!reglas["Ensamble 4"]) reglas["Ensamble 4"] = reqAno5;
+        if (!reglas["Optativa 2"]) reglas["Optativa 2"] = ["Optativa 1"];
     }
 
     return { reglas, esPlan530 };

@@ -111,6 +111,8 @@ export async function getUniqueMateriaNames() {
 
 export async function getEnrolledStudentsList() {
     // Obtenemos perfiles que tienen al menos una matriculación
+    // OPTIMIZACIÓN: Quitamos el .order('perfiles(dni)') que fuerza un sort complejo en la base de datos
+    // y ralentiza masivamente la consulta. Ordenaremos en memoria local.
     const { data, error } = await supabase
         .from('matriculaciones')
         .select(`
@@ -120,8 +122,7 @@ export async function getEnrolledStudentsList() {
                 nombre,
                 apellido
             )
-        `)
-        .order('perfiles(dni)', { ascending: true });
+        `);
 
     if (error) throw error;
 
@@ -138,6 +139,7 @@ export async function getEnrolledStudentsList() {
         }
     });
 
+    // Ordenamiento rápido en el cliente
     return Array.from(studentsMap.values()).sort((a, b) => a.dni.localeCompare(b.dni));
 }
 
