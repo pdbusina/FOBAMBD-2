@@ -92,7 +92,7 @@ export default function DashboardPage() {
                     <button
                         onClick={async () => {
                             await supabase.auth.signOut();
-                            router.push('/login');
+                            window.location.href = '/login';
                         }}
                         className="w-full py-4 bg-white text-slate-500 rounded-2xl hover:bg-slate-50 transition-all font-bold border border-slate-200"
                     >
@@ -127,7 +127,7 @@ export default function DashboardPage() {
                     <button
                         onClick={async () => {
                             await supabase.auth.signOut();
-                            router.push('/login');
+                            window.location.href = '/login';
                         }}
                         className="w-10 h-10 flex items-center justify-center bg-slate-50 text-slate-400 hover:bg-red-50 hover:text-red-500 transition-all rounded-xl border border-slate-200 hover:border-red-200"
                         title="Salir del sistema"
