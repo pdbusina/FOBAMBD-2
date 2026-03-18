@@ -55,24 +55,24 @@ export default function CertificateOfRegularity({ data, onClose }: CertificateOf
                 }}>
 
                 {/* Header */}
-                <div className="flex justify-between items-start mb-10">
+                <div className="flex justify-between items-start mb-6">
                     <div className="flex flex-col">
-                        <h1 className="text-xl font-bold text-slate-900 uppercase tracking-tight">Escuela Superior de Música de Neuquén</h1>
-                        <p className="text-xs text-slate-500 font-medium">Ministerio de Gobierno y Educación - Neuquén</p>
+                        <h1 className="text-base font-bold text-slate-900 uppercase tracking-tight">Escuela Superior de Música de Neuquén</h1>
+                        <p className="text-xs text-slate-500 font-medium">Consejo Provincial de Educación</p>
                     </div>
-                    <div className="w-20 h-20 rounded-lg overflow-hidden flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-lg overflow-hidden flex items-center justify-center">
                         <img src="/logo.png" alt="ESMN Logo" className="max-w-full max-h-full object-contain" />
                     </div>
                 </div>
 
                 {/* Title */}
-                <div className="text-center mb-8">
-                    <h2 className="text-2xl font-black text-slate-900 uppercase tracking-[0.2em] border-b-2 border-slate-900 inline-block pb-1">Certificado de Regularidad</h2>
+                <div className="text-center mb-6">
+                    <h2 className="text-lg font-black text-slate-900 uppercase tracking-[0.1em] border-b-2 border-slate-900 inline-block pb-1">Certificado de Regularidad</h2>
                 </div>
 
                 {/* Body Content */}
-                <div className="text-slate-800 leading-relaxed text-lg mb-12">
-                    <p className="mb-6">
+                <div className="text-slate-800 leading-relaxed text-base">
+                    <p className="mb-4">
                         Se certifica por la presente que el/la alumno/a <strong>{data.apellido}, {data.nombre}</strong>, con DNI <strong>{data.dni}</strong>; es <strong>alumno regular</strong> del Nivel FOBAM en el plan de estudios <strong>{data.plan}</strong> ({data.instrumento}) durante el ciclo lectivo <strong>{data.anio_lectivo}</strong>.
                     </p>
                     <p>
@@ -81,10 +81,12 @@ export default function CertificateOfRegularity({ data, onClose }: CertificateOf
                 </div>
 
                 {/* Footer / Signature Area */}
-                <div className="absolute bottom-[20mm] right-[20mm] text-center">
-                    <div className="w-48 border-t border-slate-900 mt-12 mb-2"></div>
-                    <p className="text-xs font-bold text-slate-900 uppercase tracking-widest">Sello y Firma Autorizada</p>
-                    <p className="text-[10px] text-slate-500 font-medium uppercase">Departamento de Alumnos</p>
+                <div className="mt-12 flex justify-end text-center">
+                    <div>
+                        <div className="w-48 border-t border-slate-900 mb-2"></div>
+                        <p className="text-xs font-bold text-slate-900 uppercase tracking-widest">Sello y Firma Autorizada</p>
+                        <p className="text-[10px] text-slate-500 font-medium uppercase">Departamento de Alumnos</p>
+                    </div>
                 </div>
 
                 {/* Extra Decoration for Authenticity */}
@@ -97,28 +99,33 @@ export default function CertificateOfRegularity({ data, onClose }: CertificateOf
                         size: A4 portrait;
                         margin: 0;
                     }
-                    body {
-                        background: white;
-                        margin: 0;
-                        padding: 0;
+                    /* Reset HTML structure */
+                    html, body {
+                        background: white !important;
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        height: auto !important;
+                        overflow: visible !important;
                     }
+                    /* Hide everything visually but keep the DOM hierarchy intact */
+                    body * {
+                        visibility: hidden;
+                    }
+                    /* Show only the print area and its contents */
+                    .print-area, .print-area * {
+                        visibility: visible;
+                    }
+                    /* Position the print area at the absolute top-left of the page */
                     .print-area {
                         position: absolute;
-                        top: 0;
                         left: 0;
+                        top: 0;
                         margin: 0;
+                        padding: 20mm !important; /* Keep internal padding matching inline style */
                         box-shadow: none !important;
                         border: none !important;
                         width: 210mm !important;
                         height: 148.5mm !important;
-                    }
-                    /* Ocultar todo menos el área de impresión */
-                    body > *:not(.print-area) {
-                        display: none !important;
-                    }
-                    /* Next.js app wrapper sometimes blocks print */
-                    #root, .main-container {
-                        display: block !important;
                     }
                 }
             `}</style>
