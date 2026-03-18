@@ -29,9 +29,9 @@ export default function DashboardPage() {
 
     useEffect(() => {
         if (!loading && !user) {
-            router.push('/login');
+            window.location.assign('/login');
         }
-    }, [user, loading, router]);
+    }, [user, loading]);
 
     const handleForceEntry = () => {
         if (user?.email === 'businatrabajo@gmail.com') {
