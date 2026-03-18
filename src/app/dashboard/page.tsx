@@ -14,11 +14,12 @@ import IndividualGradeForm from '@/features/grades/components/IndividualGradeFor
 import GradeSheetForm from '@/features/grades/components/GradeSheetForm';
 import TranscriptForm from '@/features/grades/components/TranscriptForm';
 import ReportsDashboard from '@/features/reports/components/ReportsDashboard';
+import CursadosViewer from '@/features/students/components/CursadosViewer';
 
 export default function DashboardPage() {
     const { user, profile: apiProfile, loading } = useAuth();
     const [forcedProfile, setForcedProfile] = useState<UserProfile | null>(null);
-    const [view, setView] = useState<'summary' | 'students' | 'add_student' | 'edit_profile' | 'enrollment' | 'grades' | 'reports'>('summary');
+    const [view, setView] = useState<'summary' | 'students' | 'add_student' | 'edit_profile' | 'enrollment' | 'grades' | 'reports' | 'cursados'>('summary');
     const [gradeSubView, setGradeSubView] = useState<'individual' | 'planilla' | 'analitico'>('individual');
     const [enrollmentRefresh, setEnrollmentRefresh] = useState(0);
     const router = useRouter();
@@ -143,7 +144,7 @@ export default function DashboardPage() {
                         <div className="flex flex-col md:flex-row gap-6 items-center bg-indigo-600 p-10 rounded-[2.5rem] shadow-2xl shadow-indigo-200 text-white relative overflow-hidden">
                             <div className="relative z-10 flex-1">
                                 <h2 className="text-3xl font-bold mb-2">¡Hola de nuevo, {profile.nombre}!</h2>
-                                <p className="text-indigo-100 font-medium">Gestiona tu academia de forma simple y eficiente.</p>
+                                <p className="text-indigo-100 font-medium">Sistema de Gestión Académica FOBAM - ESMN</p>
                             </div>
                             <div className="relative z-10 bg-white/10 backdrop-blur-sm p-4 rounded-2xl border border-white/20">
                                 <p className="text-[10px] font-bold uppercase tracking-widest mb-1 opacity-80 text-center">Estado</p>
@@ -225,6 +226,22 @@ export default function DashboardPage() {
                                 <p className="text-slate-500 font-medium text-sm leading-relaxed">Generación de certificados de regularidad y otros documentos.</p>
                                 <div className="mt-8 pt-6 border-t border-slate-50 flex items-center text-xs font-bold text-indigo-600 uppercase tracking-widest group-hover:gap-2 transition-all">
                                     Entrar <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                                </div>
+                            </div>
+
+                            <div
+                                className="group bg-white p-8 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-emerald-100/50 border border-slate-100 transition-all cursor-pointer ring-0 hover:ring-2 hover:ring-emerald-100"
+                                onClick={() => setView('cursados')}
+                            >
+                                <div className="mb-6 w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <h3 className="text-xl font-bold mb-2 text-slate-900 group-hover:text-emerald-600 transition-colors">ESTADO DE CURSADA</h3>
+                                <p className="text-slate-500 font-medium text-sm leading-relaxed">Correlatividades y habilitaciones.</p>
+                                <div className="mt-8 pt-6 border-t border-slate-50 flex items-center text-xs font-bold text-emerald-600 uppercase tracking-widest group-hover:gap-2 transition-all">
+                                    Revisar <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
                                 </div>
                             </div>
 
@@ -378,6 +395,9 @@ export default function DashboardPage() {
                 )}
                 {view === 'reports' && (
                     <ReportsDashboard onClose={() => setView('summary')} />
+                )}
+                {view === 'cursados' && (
+                    <CursadosViewer profile={profile} onClose={() => setView('summary')} />
                 )}
             </main>
         </div>
