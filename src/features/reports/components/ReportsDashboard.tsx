@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { verifyEnrollmentByDni, StudentReportData } from '../reportsService';
 import CertificateOfRegularity from './CertificateOfRegularity';
+import TranscriptReport from './TranscriptReport';
+import { processStudentTranscript, TranscriptYears } from '../analiticoService';
 
 interface ReportsDashboardProps {
     onClose: () => void;
@@ -11,7 +13,9 @@ export default function ReportsDashboard({ onClose }: ReportsDashboardProps) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [reportData, setReportData] = useState<StudentReportData | null>(null);
-    const [activeReport, setActiveReport] = useState<'regularidad' | null>(null);
+    const [transcriptData, setTranscriptData] = useState<TranscriptYears | null>(null);
+    const [activeReport, setActiveReport] = useState<'regularidad' | 'analitico' | null>(null);
+    const [isLoadingTranscript, setIsLoadingTranscript] = useState(false);
 
     const handleSearch = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -25,6 +29,7 @@ export default function ReportsDashboard({ onClose }: ReportsDashboardProps) {
             const data = await verifyEnrollmentByDni(dni);
             if (data) {
                 setReportData(data);
+                setTranscriptData(null); // Reset on new search
             } else {
                 setError('No se encontró una matriculación activa para el año en curso con ese DNI.');
             }
@@ -36,10 +41,38 @@ export default function ReportsDashboard({ onClose }: ReportsDashboardProps) {
         }
     };
 
+    const handleOpenTranscript = async () => {
+        if (!reportData) return;
+        setIsLoadingTranscript(true);
+        setError(null);
+        try {
+            // Note: The database 'materias' are linked to the full plan name (e.g. "530 Piano"),
+            // which in our ReportData interface corresponds to 'instrumento'.
+            const data = await processStudentTranscript(reportData.dni, reportData.instrumento);
+            setTranscriptData(data);
+            setActiveReport('analitico');
+        } catch (err) {
+            console.error("Error fetching transcript data:", err);
+            setError('Error al generar el analítico. Por favor, intente de nuevo.');
+        } finally {
+            setIsLoadingTranscript(false);
+        }
+    };
+
     if (activeReport === 'regularidad' && reportData) {
         return (
             <CertificateOfRegularity
                 data={reportData}
+                onClose={() => setActiveReport(null)}
+            />
+        );
+    }
+
+    if (activeReport === 'analitico' && reportData && transcriptData) {
+        return (
+            <TranscriptReport
+                data={reportData}
+                transcriptData={transcriptData}
                 onClose={() => setActiveReport(null)}
             />
         );
@@ -114,12 +147,27 @@ export default function ReportsDashboard({ onClose }: ReportsDashboardProps) {
 
                             <button
                                 onClick={() => setActiveReport('regularidad')}
-                                className="w-full py-4 bg-indigo-600 text-white rounded-xl font-bold hover:bg-slate-900 transition-all shadow-lg shadow-indigo-100 uppercase tracking-widest text-[10px] flex items-center justify-center gap-2"
+                                className="w-full mb-3 py-4 bg-white text-indigo-600 border-2 border-indigo-600 rounded-xl font-bold hover:bg-slate-50 transition-all uppercase tracking-widest text-[10px] flex items-center justify-center gap-2"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
                                 Certificado de Regularidad
+                            </button>
+
+                            <button
+                                onClick={handleOpenTranscript}
+                                disabled={isLoadingTranscript}
+                                className="w-full py-4 bg-indigo-600 text-white rounded-xl font-bold hover:bg-slate-900 transition-all shadow-lg shadow-indigo-100 uppercase tracking-widest text-[10px] flex items-center justify-center gap-2 disabled:opacity-50"
+                            >
+                                {isLoadingTranscript ? (
+                                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                ) : (
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                )}
+                                Certificado Analítico
                             </button>
                         </div>
 
@@ -129,7 +177,7 @@ export default function ReportsDashboard({ onClose }: ReportsDashboardProps) {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                 </svg>
                             </div>
-                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Otros informes proximamente</p>
+                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Nuevos informes en desarrollo</p>
                         </div>
                     </div>
                 )}
