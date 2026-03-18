@@ -10,37 +10,66 @@ export function useAuth() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        let mounted = true;
+
+        // Fallback de seguridad: si después de 5 segundos sigue cargando, forzamos salida
+        const timeoutId = setTimeout(() => {
+            if (mounted) {
+                console.warn("Auth timeout reached. Forcing load to finish.");
+                setLoading(false);
+            }
+        }, 5000);
+
         const getSession = async () => {
             try {
-                const { data: { session } } = await supabase.auth.getSession();
-                if (session) {
+                const { data: { session }, error } = await supabase.auth.getSession();
+                if (error) throw error;
+                if (session && mounted) {
                     setUser(session.user);
                     const userProfile = await getUserProfile(session.user.id, session.user.user_metadata);
-                    setProfile(userProfile);
+                    if (mounted) setProfile(userProfile);
                 }
             } catch (err) {
                 console.error('Auth check failed:', err);
+                // Intentar limpiar sesión si está corrupta
+                await supabase.auth.signOut().catch(() => {});
+                if (mounted) {
+                    setUser(null);
+                    setProfile(null);
+                }
             } finally {
-                setLoading(false);
+                if (mounted) setLoading(false);
             }
         };
 
         getSession();
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-            if (session) {
-                setUser(session.user);
-                const userProfile = await getUserProfile(session.user.id, session.user.user_metadata);
-                setProfile(userProfile);
-            } else {
-                setUser(null);
-                setProfile(null);
+            try {
+                if (session) {
+                    if (mounted) setUser(session.user);
+                    const userProfile = await getUserProfile(session.user.id, session.user.user_metadata);
+                    if (mounted) setProfile(userProfile);
+                } else {
+                    if (mounted) {
+                        setUser(null);
+                        setProfile(null);
+                    }
+                }
+            } catch (err) {
+                console.error("Auth state change error:", err);
+            } finally {
+                if (mounted) setLoading(false);
             }
-            setLoading(false);
         });
 
-        return () => subscription.unsubscribe();
+        return () => {
+            mounted = false;
+            clearTimeout(timeoutId);
+            subscription.unsubscribe();
+        };
     }, []);
 
     return { user, profile, loading };
 }
+
