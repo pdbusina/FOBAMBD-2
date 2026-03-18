@@ -15,11 +15,12 @@ import GradeSheetForm from '@/features/grades/components/GradeSheetForm';
 import TranscriptForm from '@/features/grades/components/TranscriptForm';
 import ReportsDashboard from '@/features/reports/components/ReportsDashboard';
 import CursadosViewer from '@/features/students/components/CursadosViewer';
+import UserManagement from '@/features/auth/components/UserManagement';
 
 export default function DashboardPage() {
     const { user, profile: apiProfile, loading } = useAuth();
     const [forcedProfile, setForcedProfile] = useState<UserProfile | null>(null);
-    const [view, setView] = useState<'summary' | 'students' | 'add_student' | 'edit_profile' | 'enrollment' | 'grades' | 'reports' | 'cursados'>('summary');
+    const [view, setView] = useState<'summary' | 'students' | 'add_student' | 'edit_profile' | 'enrollment' | 'grades' | 'reports' | 'cursados' | 'users'>('summary');
     const [gradeSubView, setGradeSubView] = useState<'individual' | 'planilla' | 'analitico'>('individual');
     const [enrollmentRefresh, setEnrollmentRefresh] = useState(0);
     const router = useRouter();
@@ -263,6 +264,24 @@ export default function DashboardPage() {
                                 </div>
                             )}
 
+                            {profile.rol === 'admin' && (
+                                <div
+                                    className="group bg-gradient-to-br from-slate-900 to-slate-800 p-8 rounded-[2rem] shadow-lg hover:shadow-2xl hover:shadow-slate-900/40 border border-slate-700 transition-all cursor-pointer ring-0 hover:ring-2 hover:ring-slate-400"
+                                    onClick={() => setView('users')}
+                                >
+                                    <div className="mb-6 w-14 h-14 bg-white/10 text-white rounded-2xl flex items-center justify-center group-hover:bg-white group-hover:text-slate-900 transition-all duration-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-xl font-bold mb-2 text-white group-hover:text-slate-100 transition-colors">GESTIÓN DE USUARIOS</h3>
+                                    <p className="text-slate-400 font-medium text-sm leading-relaxed">Altas web, personal y permisos del sistema.</p>
+                                    <div className="mt-8 pt-6 border-t border-slate-700 flex items-center text-xs font-bold text-slate-300 uppercase tracking-widest group-hover:gap-2 transition-all">
+                                        Administrar <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                                    </div>
+                                </div>
+                            )}
+
                             <div className="bg-slate-100/50 p-8 rounded-[2.5rem] border-2 border-dashed border-slate-200 flex flex-col justify-center items-center text-center group">
                                 <div className="w-12 h-12 bg-slate-200 rounded-2xl mb-4 flex items-center justify-center text-slate-400 group-hover:scale-110 transition-transform">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -398,6 +417,9 @@ export default function DashboardPage() {
                 )}
                 {view === 'cursados' && (
                     <CursadosViewer profile={profile} onClose={() => setView('summary')} />
+                )}
+                {view === 'users' && (
+                    <UserManagement onClose={() => setView('summary')} />
                 )}
             </main>
         </div>
