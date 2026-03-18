@@ -13,11 +13,12 @@ import EnrollmentList from '@/features/students/components/EnrollmentList';
 import IndividualGradeForm from '@/features/grades/components/IndividualGradeForm';
 import GradeSheetForm from '@/features/grades/components/GradeSheetForm';
 import TranscriptForm from '@/features/grades/components/TranscriptForm';
+import ReportsDashboard from '@/features/reports/components/ReportsDashboard';
 
 export default function DashboardPage() {
     const { user, profile: apiProfile, loading } = useAuth();
     const [forcedProfile, setForcedProfile] = useState<UserProfile | null>(null);
-    const [view, setView] = useState<'summary' | 'students' | 'add_student' | 'edit_profile' | 'enrollment' | 'grades'>('summary');
+    const [view, setView] = useState<'summary' | 'students' | 'add_student' | 'edit_profile' | 'enrollment' | 'grades' | 'reports'>('summary');
     const [gradeSubView, setGradeSubView] = useState<'individual' | 'planilla' | 'analitico'>('individual');
     const [enrollmentRefresh, setEnrollmentRefresh] = useState(0);
     const router = useRouter();
@@ -211,6 +212,22 @@ export default function DashboardPage() {
                                 </div>
                             )}
 
+                            <div
+                                className="group bg-white p-8 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-indigo-100/50 border border-slate-100 transition-all cursor-pointer ring-0 hover:ring-2 hover:ring-indigo-100"
+                                onClick={() => setView('reports')}
+                            >
+                                <div className="mb-6 w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                                    </svg>
+                                </div>
+                                <h3 className="text-xl font-bold mb-2 text-slate-900 group-hover:text-indigo-600 transition-colors">INFORMES</h3>
+                                <p className="text-slate-500 font-medium text-sm leading-relaxed">Generación de certificados de regularidad y otros documentos.</p>
+                                <div className="mt-8 pt-6 border-t border-slate-50 flex items-center text-xs font-bold text-indigo-600 uppercase tracking-widest group-hover:gap-2 transition-all">
+                                    Entrar <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                                </div>
+                            </div>
+
                             {profile.rol === 'estudiante' && (
                                 <div
                                     className="group bg-white p-8 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-indigo-100/50 border border-slate-100 transition-all cursor-pointer ring-0 hover:ring-2 hover:ring-indigo-100"
@@ -358,6 +375,9 @@ export default function DashboardPage() {
                             isStudentView={profile.rol === 'estudiante'}
                         />
                     </div>
+                )}
+                {view === 'reports' && (
+                    <ReportsDashboard onClose={() => setView('summary')} />
                 )}
             </main>
         </div>
