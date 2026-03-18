@@ -28,24 +28,30 @@ CREATE POLICY "Staff gestiona solicitudes"
   );
 
 -- 2. Función SEGURA de Traspaso de ID (vincular auth user con datos pre-cargados)
--- Resuelve el problema de Foreing Keys si el alumno ya estaba inscripto pero su UUID era ficticio
+-- Resuelve el problema de Foreing Keys y de Restricción UNIQUE de DNI
 CREATE OR REPLACE FUNCTION vincular_usuario_auth(old_perfil_id UUID, new_auth_id UUID, user_email TEXT)
 RETURNS void
 LANGUAGE plpgsql
 SECURITY DEFINER
 AS $$
+DECLARE
+  v_old_dni TEXT;
 BEGIN
-  -- 1. Crear el nuevo perfil con la nueva ID genuina (heredando datos del perfil viejo)
+  -- 1. Guardar el DNI original y liberar la restricción UNIQUE temporalmente cambiándole el nombre al viejo
+  SELECT dni INTO v_old_dni FROM public.perfiles WHERE id = old_perfil_id;
+  UPDATE public.perfiles SET dni = v_old_dni || '_TEMP' WHERE id = old_perfil_id;
+
+  -- 2. Crear el nuevo perfil con la nueva ID genuina (y el DNI original restaurado)
   INSERT INTO public.perfiles (id, dni, apellido, nombre, rol, email, direccion, ciudad, telefono, fecha_nacimiento, genero)
-  SELECT new_auth_id, dni, apellido, nombre, rol, user_email, direccion, ciudad, telefono, fecha_nacimiento, genero
+  SELECT new_auth_id, v_old_dni, apellido, nombre, rol, user_email, direccion, ciudad, telefono, fecha_nacimiento, genero
   FROM public.perfiles 
   WHERE id = old_perfil_id;
   
-  -- 2. Traspasar las referencias (Matriculaciones y Notas) al nuevo ID
+  -- 3. Traspasar las referencias (Matriculaciones y Notas) al nuevo ID
   UPDATE public.matriculaciones SET perfil_id = new_auth_id WHERE perfil_id = old_perfil_id;
   UPDATE public.notas SET perfil_id = new_auth_id WHERE perfil_id = old_perfil_id;
   
-  -- 3. Borrar el perfil viejo huérfano
+  -- 4. Borrar el perfil viejo huérfano
   DELETE FROM public.perfiles WHERE id = old_perfil_id;
 END;
 $$;
