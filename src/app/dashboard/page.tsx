@@ -34,7 +34,6 @@ export default function DashboardPage() {
     }, [user, loading, router]);
 
     const handleForceEntry = () => {
-        // ... (mismo código anterior)
         if (user?.email === 'businatrabajo@gmail.com') {
             setForcedProfile({
                 id: user.id,
@@ -45,6 +44,18 @@ export default function DashboardPage() {
                 rol: 'admin',
                 observaciones_medicas: null
             });
+        }
+    };
+
+    const handleLogout = async () => {
+        try {
+            await supabase.auth.signOut();
+        } catch (e) {
+            console.error("Logout error:", e);
+        } finally {
+            // Limpieza total y redirección forzada
+            setForcedProfile(null);
+            window.location.assign('/login');
         }
     };
 
@@ -90,10 +101,7 @@ export default function DashboardPage() {
                         Reintentar Conexión
                     </button>
                     <button
-                        onClick={async () => {
-                            await supabase.auth.signOut();
-                            window.location.href = '/login';
-                        }}
+                        onClick={handleLogout}
                         className="w-full py-4 bg-white text-slate-500 rounded-2xl hover:bg-slate-50 transition-all font-bold border border-slate-200"
                     >
                         Cerrar Sesión
@@ -125,10 +133,7 @@ export default function DashboardPage() {
                         </p>
                     </div>
                     <button
-                        onClick={async () => {
-                            await supabase.auth.signOut();
-                            window.location.href = '/login';
-                        }}
+                        onClick={handleLogout}
                         className="w-10 h-10 flex items-center justify-center bg-slate-50 text-slate-400 hover:bg-red-50 hover:text-red-500 transition-all rounded-xl border border-slate-200 hover:border-red-200"
                         title="Salir del sistema"
                     >
