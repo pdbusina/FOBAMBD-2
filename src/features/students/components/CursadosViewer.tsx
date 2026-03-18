@@ -50,7 +50,7 @@ export default function CursadosViewer({ profile, onClose }: CursadosViewerProps
                     setEnrollments(data.enrollments);
                     // Autoseleccionar si hay uno solo
                     if (data.enrollments.length === 1) {
-                        setSelectedPlan(data.enrollments[0].plan_estudios);
+                        setSelectedPlan(data.enrollments[0].nombre_plan);
                     } else {
                         setSelectedPlan('');
                     }
@@ -152,7 +152,7 @@ export default function CursadosViewer({ profile, onClose }: CursadosViewerProps
                     >
                         <option value="">-- Seleccionar Plan de Estudios --</option>
                         {enrollments.map(en => (
-                            <option key={en.id} value={en.plan_estudios}>
+                            <option key={en.id} value={en.nombre_plan}>
                                 {en.nombre_plan || en.plan_estudios}
                             </option>
                         ))}
