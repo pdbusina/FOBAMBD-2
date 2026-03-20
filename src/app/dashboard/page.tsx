@@ -351,7 +351,7 @@ export default function DashboardPage() {
                                 Registrar Nuevo
                             </button>
                         </div>
-                        <StudentList />
+                        <StudentList onEnroll={handleEnrollFromList} />
                     </div>
                 )}
 
