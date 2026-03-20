@@ -103,13 +103,22 @@ export default function BulkUpload({ onClose }: BulkUploadProps) {
 
         try {
             if (tab === 'estudiantes') {
+                // Validation: Check if 'dni' header exists
+                if (!previewData[0] || !('dni' in previewData[0])) {
+                    throw new Error('No se encontró la columna "dni" en el archivo. Verifica el formato.');
+                }
+
                 const toInsert = previewData.map((row, idx) => {
                     if (conflicts.has(idx) && !overwrite) return null;
+                    if (!row.dni) {
+                        console.warn(`Fila ${idx + 1} no tiene DNI, se omitirá.`);
+                        return null;
+                    }
                     return {
                         id: allProfiles.find(p => p.dni === row.dni)?.id || crypto.randomUUID(),
-                        dni: row.dni,
-                        apellido: row.apellido,
-                        nombre: row.nombre,
+                        dni: String(row.dni).trim(),
+                        apellido: row.apellido || '',
+                        nombre: row.nombre || '',
                         rol: 'estudiante'
                     };
                 }).filter(Boolean);
@@ -122,9 +131,15 @@ export default function BulkUpload({ onClose }: BulkUploadProps) {
                 }
             } else {
                 // Process Grades
+                // Validation: Check if 'dni' and 'materia' headers exist
+                if (!previewData[0] || !('dni' in previewData[0]) || !('materia' in previewData[0])) {
+                    throw new Error('Faltan columnas obligatorias ("dni" o "materia") en el archivo.');
+                }
+
                 const notasToUpsert: Nota[] = previewData
                     .map((row, idx) => {
                         if (conflicts.has(idx) && !overwrite) return null;
+                        if (!row.dni) return null;
                         
                         const profile = allProfiles.find(p => p.dni === row.dni);
                         if (!profile && !overwrite) {
@@ -133,9 +148,9 @@ export default function BulkUpload({ onClose }: BulkUploadProps) {
 
                         const notaObj: Nota = {
                             perfil_id: profile?.id || '',
-                            dni: row.dni,
+                            dni: String(row.dni).trim(),
                             nombre_materia: row.materia,
-                            nota: String(row.nota),
+                            nota: String(row.nota || ''),
                             condicion: (row.condicion?.toLowerCase() as 'promoción' | 'examen' | 'equivalencia') || 'promoción',
                             fecha: row.fecha || new Date().toISOString().split('T')[0],
                             libro_folio: row.libro_folio || '',
@@ -153,7 +168,7 @@ export default function BulkUpload({ onClose }: BulkUploadProps) {
             setPreviewData([]);
             setFile(null);
         } catch (err: any) {
-            setError('Error al procesar la carga: ' + (err.message || 'Error desconocido'));
+            setError(err.message || 'Error desconocido al procesar la carga');
         } finally {
             setLoading(false);
         }
