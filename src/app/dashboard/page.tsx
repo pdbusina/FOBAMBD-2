@@ -16,11 +16,12 @@ import TranscriptForm from '@/features/grades/components/TranscriptForm';
 import ReportsDashboard from '@/features/reports/components/ReportsDashboard';
 import CursadosViewer from '@/features/students/components/CursadosViewer';
 import UserManagement from '@/features/auth/components/UserManagement';
+import BulkUpload from '@/features/admin/components/BulkUpload';
 
 export default function DashboardPage() {
     const { user, profile: apiProfile, loading } = useAuth();
     const [forcedProfile, setForcedProfile] = useState<UserProfile | null>(null);
-    const [view, setView] = useState<'summary' | 'students' | 'add_student' | 'edit_profile' | 'enrollment' | 'grades' | 'reports' | 'cursados' | 'users'>('summary');
+    const [view, setView] = useState<'summary' | 'students' | 'add_student' | 'edit_profile' | 'enrollment' | 'grades' | 'reports' | 'cursados' | 'users' | 'bulk_upload'>('summary');
     const [gradeSubView, setGradeSubView] = useState<'individual' | 'planilla' | 'analitico'>('individual');
     const [enrollmentRefresh, setEnrollmentRefresh] = useState(0);
     const router = useRouter();
@@ -271,6 +272,24 @@ export default function DashboardPage() {
 
                             {profile.rol === 'admin' && (
                                 <div
+                                    className="group bg-gradient-to-br from-indigo-900 to-indigo-800 p-8 rounded-[2rem] shadow-lg hover:shadow-2xl hover:shadow-indigo-900/40 border border-indigo-700 transition-all cursor-pointer ring-0 hover:ring-2 hover:ring-indigo-400"
+                                    onClick={() => setView('bulk_upload')}
+                                >
+                                    <div className="mb-6 w-14 h-14 bg-white/10 text-white rounded-2xl flex items-center justify-center group-hover:bg-white group-hover:text-indigo-900 transition-all duration-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-xl font-bold mb-2 text-white group-hover:text-indigo-100 transition-colors">CARGA MASIVA</h3>
+                                    <p className="text-indigo-300 font-medium text-sm leading-relaxed">Importación de estudiantes y notas por planilla CSV.</p>
+                                    <div className="mt-8 pt-6 border-t border-indigo-700 flex items-center text-xs font-bold text-indigo-300 uppercase tracking-widest group-hover:gap-2 transition-all">
+                                        Importar <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                                    </div>
+                                </div>
+                            )}
+
+                            {profile.rol === 'admin' && (
+                                <div
                                     className="group bg-gradient-to-br from-slate-900 to-slate-800 p-8 rounded-[2rem] shadow-lg hover:shadow-2xl hover:shadow-slate-900/40 border border-slate-700 transition-all cursor-pointer ring-0 hover:ring-2 hover:ring-slate-400"
                                     onClick={() => setView('users')}
                                 >
@@ -425,6 +444,11 @@ export default function DashboardPage() {
                 )}
                 {view === 'users' && (
                     <UserManagement onClose={() => setView('summary')} />
+                )}
+                {view === 'bulk_upload' && (
+                    <div className="animate-in slide-in-from-bottom-8 duration-700 w-full flex flex-col items-center">
+                        <BulkUpload onClose={() => setView('summary')} />
+                    </div>
                 )}
             </main>
         </div>
