@@ -4,40 +4,59 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { UserProfile } from '@/features/auth/authService';
 import StudentEditForm from './StudentEditForm';
+import { getEnrolledProfileIds } from '../enrollmentService';
 
-export default function StudentList() {
+interface StudentListProps {
+    onEnroll?: (dni: string) => void;
+}
+
+export default function StudentList({ onEnroll }: StudentListProps) {
     const [students, setStudents] = useState<UserProfile[]>([]);
+    const [enrolledIds, setEnrolledIds] = useState<Set<string>>(new Set());
     const [loading, setLoading] = useState(true);
     const [editingStudent, setEditingStudent] = useState<UserProfile | null>(null);
 
     useEffect(() => {
-        fetchStudents();
+        fetchStudentsAndStatus();
 
         // Suscripción en tiempo real para actualizaciones inmediatas
         const channel = supabase
             .channel('perfiles_changes')
             .on('postgres_changes', { event: '*', schema: 'public', table: 'perfiles' }, () => {
-                fetchStudents();
+                fetchStudentsAndStatus();
+            })
+            .subscribe();
+
+        const enrollChannel = supabase
+            .channel('enroll_changes')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'matriculaciones' }, () => {
+                fetchStudentsAndStatus();
             })
             .subscribe();
 
         return () => {
             supabase.removeChannel(channel);
+            supabase.removeChannel(enrollChannel);
         };
     }, []);
 
-    const fetchStudents = async () => {
-        const { data, error } = await supabase
-            .from('perfiles')
-            .select('*')
-            .eq('rol', 'estudiante')
-            .order('apellido', { ascending: true })
-            .order('nombre', { ascending: true })
-            .order('dni', { ascending: true });
+    const fetchStudentsAndStatus = async () => {
+        const currentYear = new Date().getFullYear();
+        const [profilesRes, enrolledRes] = await Promise.all([
+            supabase
+                .from('perfiles')
+                .select('*')
+                .eq('rol', 'estudiante')
+                .order('apellido', { ascending: true })
+                .order('nombre', { ascending: true })
+                .order('dni', { ascending: true }),
+            getEnrolledProfileIds(currentYear)
+        ]);
 
-        if (!error && data) {
-            setStudents(data);
+        if (!profilesRes.error && profilesRes.data) {
+            setStudents(profilesRes.data);
         }
+        setEnrolledIds(enrolledRes);
         setLoading(false);
     };
 
@@ -53,7 +72,7 @@ export default function StudentList() {
                 student={editingStudent}
                 onClose={() => {
                     setEditingStudent(null);
-                    fetchStudents();
+                    fetchStudentsAndStatus();
                 }}
             />
         );
@@ -69,6 +88,9 @@ export default function StudentList() {
                 <div className="flex items-center gap-3">
                     <span className="text-[10px] bg-indigo-50 text-indigo-600 px-4 py-2 rounded-xl font-bold border border-indigo-100 uppercase tracking-widest">
                         {students.length} Estudiantes
+                    </span>
+                    <span className="text-[10px] bg-emerald-50 text-emerald-600 px-4 py-2 rounded-xl font-bold border border-emerald-100 uppercase tracking-widest">
+                        {enrolledIds.size} Inscriptos {new Date().getFullYear()}
                     </span>
                 </div>
             </div>
@@ -90,36 +112,54 @@ export default function StudentList() {
                                 </td>
                             </tr>
                         ) : (
-                            students.map((student) => (
-                                <tr key={student.id} className="hover:bg-indigo-50/30 transition-all group">
-                                    <td className="px-6 py-2">
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-slate-900 font-bold text-sm group-hover:text-indigo-600 transition-colors uppercase">
-                                                {student.apellido},
+                            students.map((student) => {
+                                const isEnrolled = enrolledIds.has(student.id);
+                                return (
+                                    <tr key={student.id} className="hover:bg-indigo-50/30 transition-all group">
+                                        <td className="px-6 py-2">
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-slate-900 font-bold text-sm group-hover:text-indigo-600 transition-colors uppercase">
+                                                    {student.apellido},
+                                                </span>
+                                                <span className="text-slate-500 font-medium text-sm group-hover:text-indigo-400 uppercase">
+                                                    {student.nombre}
+                                                </span>
+                                                {isEnrolled && (
+                                                    <span className="ml-2 text-[8px] font-bold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full uppercase tracking-tighter border border-emerald-200">
+                                                        Inscripto {new Date().getFullYear()}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-2 text-center">
+                                            <span className="inline-block bg-slate-100 text-slate-600 px-3 py-1 rounded-xl text-[10px] font-bold border border-slate-200 tabular-nums">
+                                                {student.dni}
                                             </span>
-                                            <span className="text-slate-500 font-medium text-sm group-hover:text-indigo-400 uppercase">
-                                                {student.nombre}
-                                            </span>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-2 text-center">
-                                        <span className="inline-block bg-slate-100 text-slate-600 px-3 py-1 rounded-xl text-[10px] font-bold border border-slate-200 tabular-nums">
-                                            {student.dni}
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-2 text-right">
-                                        <button
-                                            onClick={() => setEditingStudent(student)}
-                                            className="inline-flex items-center gap-2 bg-white text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 px-4 py-1.5 rounded-xl font-bold text-[10px] transition-all border border-slate-200 hover:border-indigo-200 shadow-sm active:scale-95 group/btn"
-                                        >
-                                            Ver Ficha
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 opacity-0 group-hover/btn:opacity-100 -ml-2 group-hover/btn:ml-0 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                            </svg>
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))
+                                        </td>
+                                        <td className="px-6 py-2 text-right">
+                                            <div className="flex items-center justify-end gap-2">
+                                                {!isEnrolled && onEnroll && (
+                                                    <button
+                                                        onClick={() => onEnroll(student.dni)}
+                                                        className="inline-flex items-center gap-2 bg-indigo-600 text-white hover:bg-slate-900 px-4 py-1.5 rounded-xl font-bold text-[10px] transition-all shadow-md shadow-indigo-100 active:scale-95 uppercase tracking-widest"
+                                                    >
+                                                        Matricular
+                                                    </button>
+                                                )}
+                                                <button
+                                                    onClick={() => setEditingStudent(student)}
+                                                    className="inline-flex items-center gap-2 bg-white text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 px-4 py-1.5 rounded-xl font-bold text-[10px] transition-all border border-slate-200 hover:border-indigo-200 shadow-sm active:scale-95 group/btn"
+                                                >
+                                                    Ficha
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 opacity-0 group-hover/btn:opacity-100 -ml-2 group-hover/btn:ml-0 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })
                         )}
                     </tbody>
                 </table>

@@ -113,3 +113,17 @@ export async function getAllEnrollments(anio: number) {
         return dniA.localeCompare(dniB);
     });
 }
+
+export async function getEnrolledProfileIds(anio: number): Promise<Set<string>> {
+    const { data, error } = await supabase
+        .from('matriculaciones')
+        .select('perfil_id')
+        .eq('anio_lectivo', anio);
+
+    if (error) {
+        console.error('Error fetching enrolled IDs:', error);
+        return new Set();
+    }
+
+    return new Set(data.map(m => m.perfil_id));
+}

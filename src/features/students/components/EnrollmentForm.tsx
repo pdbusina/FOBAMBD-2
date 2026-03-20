@@ -5,8 +5,8 @@ import { supabase } from '@/lib/supabase';
 import { UserProfile } from '@/features/auth/authService';
 import { InstrumentoPlan, getInstrumentosPlanes, enrollStudent } from '../enrollmentService';
 
-export default function EnrollmentForm({ onClose, onEnrollSuccess }: { onClose: () => void, onEnrollSuccess?: () => void }) {
-    const [dniSearch, setDniSearch] = useState('');
+export default function EnrollmentForm({ onClose, onEnrollSuccess, initialDni }: { onClose: () => void, onEnrollSuccess?: () => void, initialDni?: string }) {
+    const [dniSearch, setDniSearch] = useState(initialDni || '');
     const [student, setStudent] = useState<UserProfile | null>(null);
     const [searching, setSearching] = useState(false);
     const [searchError, setSearchError] = useState('');
@@ -24,11 +24,14 @@ export default function EnrollmentForm({ onClose, onEnrollSuccess }: { onClose: 
             setInstrumentos(data);
         };
         loadInstruments();
-    }, []);
 
-    const handleSearch = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!dniSearch) return;
+        if (initialDni) {
+            performSearch(initialDni);
+        }
+    }, [initialDni]);
+
+    const performSearch = async (dni: string) => {
+        if (!dni) return;
 
         setSearching(true);
         setSearchError('');
@@ -38,7 +41,7 @@ export default function EnrollmentForm({ onClose, onEnrollSuccess }: { onClose: 
         const { data, error } = await supabase
             .from('perfiles')
             .select('*')
-            .eq('dni', dniSearch)
+            .eq('dni', dni)
             .maybeSingle();
 
         if (error) {
@@ -49,6 +52,11 @@ export default function EnrollmentForm({ onClose, onEnrollSuccess }: { onClose: 
             setStudent(data);
         }
         setSearching(false);
+    };
+
+    const handleSearch = async (e: React.FormEvent) => {
+        e.preventDefault();
+        performSearch(dniSearch);
     };
 
     const handleEnroll = async (e: React.FormEvent) => {

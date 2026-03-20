@@ -24,9 +24,15 @@ export default function DashboardPage() {
     const [view, setView] = useState<'summary' | 'students' | 'add_student' | 'edit_profile' | 'enrollment' | 'grades' | 'reports' | 'cursados' | 'users' | 'bulk_upload'>('summary');
     const [gradeSubView, setGradeSubView] = useState<'individual' | 'planilla' | 'analitico'>('individual');
     const [enrollmentRefresh, setEnrollmentRefresh] = useState(0);
+    const [selectedStudentDni, setSelectedStudentDni] = useState<string | null>(null);
     const router = useRouter();
 
     const profile = apiProfile || forcedProfile;
+
+    const handleEnrollFromList = (dni: string) => {
+        setSelectedStudentDni(dni);
+        setView('enrollment');
+    };
 
     useEffect(() => {
         if (!loading && !user) {
@@ -373,7 +379,11 @@ export default function DashboardPage() {
                     <div className="animate-in slide-in-from-bottom-8 duration-700 w-full">
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
                             <EnrollmentForm
-                                onClose={() => setView('summary')}
+                                initialDni={selectedStudentDni || undefined}
+                                onClose={() => {
+                                    setView('summary');
+                                    setSelectedStudentDni(null);
+                                }}
                                 onEnrollSuccess={() => setEnrollmentRefresh(prev => prev + 1)}
                             />
                             <div className="h-[calc(100vh-180px)] sticky top-24">
