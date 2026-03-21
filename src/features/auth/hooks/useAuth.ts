@@ -28,10 +28,14 @@ export function useAuth() {
                     setUser(session.user);
                     const userProfile = await getUserProfile(session.user.id, session.user.user_metadata);
                     if (mounted) setProfile(userProfile);
+                } else if (!session && mounted) {
+                    // Si no hay sesión, asegurar limpieza
+                    setUser(null);
+                    setProfile(null);
                 }
             } catch (err) {
                 console.error('Auth check failed:', err);
-                // Intentar limpiar sesión si está corrupta
+                // Limpiar todo si falló (ej: sesión expirada o corrupta)
                 await supabase.auth.signOut().catch(() => {});
                 if (mounted) {
                     setUser(null);

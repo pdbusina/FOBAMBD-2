@@ -68,12 +68,22 @@ export default function DashboardPage() {
 
     const handleLogout = async () => {
         try {
-            await supabase.auth.signOut();
-        } catch (e) {
-            console.error("Logout error:", e);
-        } finally {
+            // 1. Limpiar estado local inmediatamente
             setForcedProfile(null);
-            window.location.assign('/login');
+            
+            // 2. Intentar cerrar sesión en el servidor (con timeout)
+            const logoutPromise = supabase.auth.signOut();
+            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 2000));
+            
+            await Promise.race([logoutPromise, timeoutPromise]).catch(err => {
+                console.warn("Logout (server) warning or timeout, proceeding with local cleanup:", err);
+            });
+            
+        } catch (e) {
+            console.error("Logout caught error:", e);
+        } finally {
+            // 3. Forzar redirección absoluta para limpiar cualquier estado de React/Router persistente
+            window.location.href = '/login';
         }
     };
 
