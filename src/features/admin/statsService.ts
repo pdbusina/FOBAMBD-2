@@ -15,11 +15,11 @@ export interface StatsData {
     totalMatriculacionesInstrumento: number;
     totalInscripcionesMaterias: number;
     totalInstrumentos: number;
-    porInstrumento: { instrumento: string, count: number }[];
-    porMateria: { materia: string, count: number }[];
-    porEdadGeneral: { rango: string, count: number }[];
-    porGenero: { genero: string, count: number }[];
-    porNacionalidad: { nacionalidad: string, count: number }[];
+    porInstrumento: any[];
+    porMateria: any[];
+    porEdadGeneral: any[];
+    porGenero: any[];
+    porNacionalidad: any[];
     ageMatrix: { [anio: number]: YearMatrixRow };
 }
 
@@ -137,7 +137,7 @@ export const statsService = {
             countMateria[matNombre] = (countMateria[matNombre] || 0) + 1;
         });
 
-        const toArray = (obj: any, keyName: string = "nombre") => Object.entries(obj)
+        const toArray = (obj: any, keyName: string = "nombre"): any[] => Object.entries(obj)
             .map(([k, v]) => ({ [keyName]: k, count: v as number }))
             .sort((a, b) => b.count - a.count);
 
