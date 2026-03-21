@@ -17,11 +17,16 @@ import ReportsDashboard from '@/features/reports/components/ReportsDashboard';
 import CursadosViewer from '@/features/students/components/CursadosViewer';
 import UserManagement from '@/features/auth/components/UserManagement';
 import BulkUpload from '@/features/admin/components/BulkUpload';
+import CommissionsManager from '@/features/commissions/components/CommissionsManager';
+import EnrollmentCursadaForm from '@/features/commissions/components/EnrollmentCursadaForm';
+import EnrollmentCursadaList from '@/features/commissions/components/EnrollmentCursadaList';
+import StatsDashboard from '@/features/admin/components/StatsDashboard';
+import BackupManager from '@/features/admin/components/BackupManager';
 
 export default function DashboardPage() {
     const { user, profile: apiProfile, loading } = useAuth();
     const [forcedProfile, setForcedProfile] = useState<UserProfile | null>(null);
-    const [view, setView] = useState<'summary' | 'students' | 'add_student' | 'edit_profile' | 'enrollment' | 'grades' | 'reports' | 'cursados' | 'users' | 'bulk_upload'>('summary');
+    const [view, setView] = useState<'summary' | 'students' | 'add_student' | 'edit_profile' | 'enrollment' | 'grades' | 'reports' | 'cursados' | 'users' | 'bulk_upload' | 'commissions' | 'enrollment_cursada' | 'stats' | 'backup'>('summary');
     const [gradeSubView, setGradeSubView] = useState<'individual' | 'planilla' | 'analitico'>('individual');
     const [enrollmentRefresh, setEnrollmentRefresh] = useState(0);
     const [selectedStudentDni, setSelectedStudentDni] = useState<string | null>(null);
@@ -312,6 +317,96 @@ export default function DashboardPage() {
                                 </div>
                             )}
 
+                            {(profile.rol === 'admin' || profile.rol === 'preceptor') && (
+                                <div
+                                    className="group bg-white p-8 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-indigo-100/50 border border-slate-100 transition-all cursor-pointer ring-0 hover:ring-2 hover:ring-indigo-100"
+                                    onClick={() => setView('enrollment_cursada')}
+                                >
+                                    <div className="mb-6 w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-xl font-bold mb-2 text-slate-900 group-hover:text-emerald-600 transition-colors">INSCRIPCIÓN MATERIAS</h3>
+                                    <p className="text-slate-500 font-medium text-sm leading-relaxed">Asignar alumnos a comisiones y horarios específicos.</p>
+                                    <div className="mt-8 pt-6 border-t border-slate-50 flex items-center text-xs font-bold text-emerald-600 uppercase tracking-widest group-hover:gap-2 transition-all">
+                                        Gestionar <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                                    </div>
+                                </div>
+                            )}
+
+                            {profile.rol === 'admin' && (
+                                <div
+                                    className="group bg-white p-8 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-indigo-100/50 border border-slate-100 transition-all cursor-pointer ring-0 hover:ring-2 hover:ring-indigo-100"
+                                    onClick={() => setView('commissions')}
+                                >
+                                    <div className="mb-6 w-14 h-14 bg-slate-50 text-slate-600 rounded-2xl flex items-center justify-center group-hover:bg-slate-900 group-hover:text-white transition-all duration-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-xl font-bold mb-2 text-slate-900 group-hover:text-slate-900 transition-colors">COMISIONES</h3>
+                                    <p className="text-slate-500 font-medium text-sm leading-relaxed">Administrar oferta horaria, aulas y cupos (Individual/Masivo).</p>
+                                    <div className="mt-8 pt-6 border-t border-slate-50 flex items-center text-xs font-bold text-slate-400 uppercase tracking-widest group-hover:text-slate-900 group-hover:gap-2 transition-all">
+                                        Administrar <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                                    </div>
+                                </div>
+                            )}
+
+                            {profile.rol === 'admin' && (
+                                <div
+                                    className="group bg-white p-8 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-indigo-100/50 border border-slate-100 transition-all cursor-pointer ring-0 hover:ring-2 hover:ring-indigo-100"
+                                    onClick={() => setView('stats')}
+                                >
+                                    <div className="mb-6 w-14 h-14 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center group-hover:bg-rose-600 group-hover:text-white transition-all duration-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-xl font-bold mb-2 text-slate-900 group-hover:text-rose-600 transition-colors">ESTADÍSTICAS</h3>
+                                    <p className="text-slate-500 font-medium text-sm leading-relaxed">Informes censales, matriz de edades y métricas de gestión.</p>
+                                    <div className="mt-8 pt-6 border-t border-slate-50 flex items-center text-xs font-bold text-rose-600 uppercase tracking-widest group-hover:gap-2 transition-all">
+                                        Ver Censo <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                                    </div>
+                                </div>
+                            )}
+
+                            {profile.rol === 'admin' && (
+                                <div
+                                    className="group bg-white p-8 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-slate-100/50 border border-slate-100 transition-all cursor-pointer ring-0 hover:ring-2 hover:ring-slate-100"
+                                    onClick={() => setView('backup')}
+                                >
+                                    <div className="mb-6 w-14 h-14 bg-slate-50 text-slate-400 rounded-2xl flex items-center justify-center group-hover:bg-slate-700 group-hover:text-white transition-all duration-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-xl font-bold mb-2 text-slate-900 group-hover:text-slate-700 transition-colors">BACKUP</h3>
+                                    <p className="text-slate-500 font-medium text-sm leading-relaxed">Exportación de seguridad y redundancia de datos.</p>
+                                    <div className="mt-8 pt-6 border-t border-slate-50 flex items-center text-xs font-bold text-slate-400 uppercase tracking-widest group-hover:gap-2 transition-all">
+                                        Entrar <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                                    </div>
+                                </div>
+                            )}
+
+                            {profile.rol === 'estudiante' && (
+                                <div
+                                    className="group bg-emerald-600 p-8 rounded-[2rem] shadow-lg hover:shadow-emerald-200 border border-emerald-500 transition-all cursor-pointer text-white"
+                                    onClick={() => setView('enrollment_cursada')}
+                                >
+                                    <div className="mb-6 w-14 h-14 bg-white/10 text-white rounded-2xl flex items-center justify-center group-hover:bg-white group-hover:text-emerald-600 transition-all duration-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-xl font-bold mb-2 text-white">MIS CURSADAS</h3>
+                                    <p className="text-emerald-100 font-medium text-sm leading-relaxed">Consulta tus inscripciones actuales y horarios asignados.</p>
+                                    <div className="mt-8 pt-6 border-t border-emerald-500 flex items-center text-xs font-bold text-white uppercase tracking-widest group-hover:gap-2 transition-all">
+                                        Ver Mis Materias <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                                    </div>
+                                </div>
+                            )}
+
                             <div className="bg-slate-100/50 p-8 rounded-[2.5rem] border-2 border-dashed border-slate-200 flex flex-col justify-center items-center text-center group">
                                 <div className="w-12 h-12 bg-slate-200 rounded-2xl mb-4 flex items-center justify-center text-slate-400 group-hover:scale-110 transition-transform">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -459,6 +554,38 @@ export default function DashboardPage() {
                     <div className="animate-in slide-in-from-bottom-8 duration-700 w-full flex flex-col items-center">
                         <BulkUpload onClose={() => setView('summary')} />
                     </div>
+                )}
+                {view === 'commissions' && (
+                    <CommissionsManager onClose={() => setView('summary')} />
+                )}
+                {view === 'enrollment_cursada' && (
+                    <div className="space-y-8 animate-in slide-in-from-right-4 duration-500">
+                        {profile.rol === 'admin' || profile.rol === 'preceptor' ? (
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                                <EnrollmentCursadaForm 
+                                    onClose={() => setView('summary')} 
+                                    onSuccess={() => setEnrollmentRefresh(prev => prev + 1)}
+                                />
+                                <div className="h-[calc(100vh-180px)] sticky top-24">
+                                    <EnrollmentCursadaList 
+                                        rol={profile.rol} 
+                                        refreshTrigger={enrollmentRefresh} 
+                                    />
+                                </div>
+                            </div>
+                        ) : (
+                            <EnrollmentCursadaList 
+                                rol={profile.rol} 
+                                perfilId={profile.id} 
+                            />
+                        )}
+                    </div>
+                )}
+                {view === 'stats' && (
+                    <StatsDashboard onClose={() => setView('summary')} />
+                )}
+                {view === 'backup' && (
+                    <BackupManager onClose={() => setView('summary')} />
                 )}
             </main>
         </div>
