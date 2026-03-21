@@ -9,6 +9,7 @@ export interface Commission {
     aula?: string;
     cupo_maximo: number;
     anio_lectivo: number;
+    obs_optativa_ensamble?: string;
     creado_en: string;
 }
 
@@ -20,6 +21,7 @@ export interface CommissionInsert {
     aula?: string;
     cupo_maximo?: number;
     anio_lectivo?: number;
+    obs_optativa_ensamble?: string;
 }
 
 export const commissionsService = {
@@ -82,7 +84,7 @@ export const commissionsService = {
             const line = lines[i].trim();
             if (!line) continue;
 
-            const [materia, dia, hora, docente, aula, cupo] = line.split(';');
+            const [materia, dia, hora, docente, aula, cupo, obs] = line.split(';');
 
             if (materia && dia && hora && docente) {
                 results.push({
@@ -92,7 +94,8 @@ export const commissionsService = {
                     docente_nombre: docente.trim(),
                     aula: aula ? aula.trim() : '',
                     cupo_maximo: cupo ? parseInt(cupo.trim()) : 30,
-                    anio_lectivo: currentYear
+                    anio_lectivo: currentYear,
+                    obs_optativa_ensamble: obs ? obs.trim() : ''
                 });
             }
         }

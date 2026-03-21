@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS public.comisiones (
   aula text,
   cupo_maximo integer DEFAULT 30,
   anio_lectivo integer NOT NULL DEFAULT extract(year from now()),
+  obs_optativa_ensamble text,
   creado_en timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 

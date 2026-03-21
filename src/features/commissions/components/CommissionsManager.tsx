@@ -23,7 +23,8 @@ export default function CommissionsManager({ onClose }: CommissionsManagerProps)
         docente_nombre: '',
         aula: '',
         cupo_maximo: 30,
-        anio_lectivo: new Date().getFullYear()
+        anio_lectivo: new Date().getFullYear(),
+        obs_optativa_ensamble: ''
     });
 
     useEffect(() => {
@@ -50,7 +51,7 @@ export default function CommissionsManager({ onClose }: CommissionsManagerProps)
         try {
             await commissionsService.create(form);
             setSuccess('Comisión creada con éxito.');
-            setForm({ ...form, materia_nombre: '', docente_nombre: '', aula: '' });
+            setForm({ ...form, materia_nombre: '', docente_nombre: '', aula: '', obs_optativa_ensamble: '' });
             loadCommissions();
             setView('list');
         } catch (err) {
@@ -144,6 +145,7 @@ export default function CommissionsManager({ onClose }: CommissionsManagerProps)
                             <thead className="bg-slate-50/50">
                                 <tr>
                                     <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Materia</th>
+                                    <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Obs</th>
                                     <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Horario</th>
                                     <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Docente</th>
                                     <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Cupo</th>
@@ -171,8 +173,17 @@ export default function CommissionsManager({ onClose }: CommissionsManagerProps)
                                 {commissions.map(c => (
                                     <tr key={c.id} className="hover:bg-slate-50/50 transition-colors group">
                                         <td className="px-8 py-5">
-                                            <p className="font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">{c.materia_nombre}</p>
+                                            <p className="font-bold text-slate-900 group-hover:text-indigo-600 transition-colors uppercase text-xs">{c.materia_nombre}</p>
                                             <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Ciclo {c.anio_lectivo}</p>
+                                        </td>
+                                        <td className="px-8 py-5">
+                                            {c.obs_optativa_ensamble ? (
+                                                <span className="bg-amber-100 text-amber-700 text-[9px] font-black px-2 py-1 rounded-md uppercase tracking-tight border border-amber-200">
+                                                    {c.obs_optativa_ensamble}
+                                                </span>
+                                            ) : (
+                                                <span className="text-slate-200 text-[10px] font-bold">—</span>
+                                            )}
                                         </td>
                                         <td className="px-8 py-5">
                                             <div className="flex flex-col">
@@ -288,6 +299,17 @@ export default function CommissionsManager({ onClose }: CommissionsManagerProps)
                             </div>
                         </div>
 
+                        <div className="space-y-2">
+                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Obs (Optativa/Ensamble)</label>
+                            <input
+                                type="text"
+                                value={form.obs_optativa_ensamble}
+                                onChange={e => setForm({ ...form, obs_optativa_ensamble: e.target.value })}
+                                placeholder="Ej: Proyecto Rock / Niños"
+                                className="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl font-bold focus:ring-2 focus:ring-indigo-600 transition-all"
+                            />
+                        </div>
+
                         <button
                             type="submit"
                             disabled={loading}
@@ -316,7 +338,7 @@ export default function CommissionsManager({ onClose }: CommissionsManagerProps)
                             <h4 className="text-[10px] font-black uppercase tracking-widest text-indigo-400">Instrucciones del Formato</h4>
                             <p className="text-xs text-slate-300 leading-relaxed">
                                 El archivo debe ser un **CSV** separado por **punto y coma (;)** con el siguiente orden:<br/>
-                                <code className="bg-black/40 px-2 py-1 rounded inline-block mt-2 text-indigo-300">materia;dia;hora;docente;aula;cupo</code>
+                                <code className="bg-black/40 px-2 py-1 rounded inline-block mt-2 text-indigo-300">materia;dia;hora;docente;aula;cupo;observaciones</code>
                             </p>
                         </div>
 
