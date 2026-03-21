@@ -12,6 +12,7 @@ import EnrollmentForm from '@/features/students/components/EnrollmentForm';
 import EnrollmentList from '@/features/students/components/EnrollmentList';
 import IndividualGradeForm from '@/features/grades/components/IndividualGradeForm';
 import GradeSheetForm from '@/features/grades/components/GradeSheetForm';
+import CommissionGradeForm from '@/features/grades/components/CommissionGradeForm';
 import TranscriptForm from '@/features/grades/components/TranscriptForm';
 import ReportsDashboard from '@/features/reports/components/ReportsDashboard';
 import CursadosViewer from '@/features/students/components/CursadosViewer';
@@ -27,7 +28,7 @@ export default function DashboardPage() {
     const { user, profile: apiProfile, loading } = useAuth();
     const [forcedProfile, setForcedProfile] = useState<UserProfile | null>(null);
     const [view, setView] = useState<'summary' | 'students' | 'add_student' | 'edit_profile' | 'enrollment' | 'grades' | 'reports' | 'cursados' | 'users' | 'bulk_upload' | 'commissions' | 'enrollment_cursada' | 'stats' | 'backup'>('summary');
-    const [gradeSubView, setGradeSubView] = useState<'individual' | 'planilla' | 'analitico'>('individual');
+    const [gradeSubView, setGradeSubView] = useState<'individual' | 'planilla' | 'analitico' | 'comision'>('individual');
     const [enrollmentRefresh, setEnrollmentRefresh] = useState(0);
     const [selectedStudentDni, setSelectedStudentDni] = useState<string | null>(null);
     const [preFillEnrollment, setPreFillEnrollment] = useState<{ dni?: string, materiaNombre?: string } | null>(null);
@@ -349,12 +350,16 @@ export default function DashboardPage() {
 
                 {view === 'grades' && (
                     <div className="animate-in slide-in-from-bottom-8 duration-700 w-full flex flex-col items-center gap-8">
-                        <div className="w-full max-w-4xl flex bg-white p-2 rounded-2xl shadow-sm border border-slate-100">
-                            <button onClick={() => setGradeSubView('individual')} className={`flex-1 py-3 font-bold text-xs uppercase tracking-widest rounded-xl transition-all ${gradeSubView === 'individual' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-slate-600'}`}>Carga Individual</button>
-                            <button onClick={() => setGradeSubView('planilla')} className={`flex-1 py-3 font-bold text-xs uppercase tracking-widest rounded-xl transition-all ${gradeSubView === 'planilla' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-slate-600'}`}>Carga de Planilla</button>
-                            <button onClick={() => setGradeSubView('analitico')} className={`flex-1 py-3 font-bold text-xs uppercase tracking-widest rounded-xl transition-all ${gradeSubView === 'analitico' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-slate-600'}`}>Carga de Analítico</button>
+                        <div className="w-full max-w-4xl flex bg-white p-2 rounded-2xl shadow-sm border border-slate-100 overflow-x-auto">
+                            <button onClick={() => setGradeSubView('individual')} className={`flex-1 min-w-[120px] py-3 font-bold text-xs uppercase tracking-widest rounded-xl transition-all ${gradeSubView === 'individual' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-slate-600'}`}>Carga Individual</button>
+                            <button onClick={() => setGradeSubView('planilla')} className={`flex-1 min-w-[120px] py-3 font-bold text-xs uppercase tracking-widest rounded-xl transition-all ${gradeSubView === 'planilla' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-slate-600'}`}>Carga Planilla</button>
+                            <button onClick={() => setGradeSubView('comision')} className={`flex-1 min-w-[150px] py-3 font-bold text-xs uppercase tracking-widest rounded-xl transition-all ${gradeSubView === 'comision' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-slate-600'}`}>Desde Comisión</button>
+                            <button onClick={() => setGradeSubView('analitico')} className={`flex-1 min-w-[150px] py-3 font-bold text-xs uppercase tracking-widest rounded-xl transition-all ${gradeSubView === 'analitico' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-slate-600'}`}>Carga Analítico</button>
                         </div>
-                        {gradeSubView === 'individual' ? <IndividualGradeForm onClose={() => setView('summary')} /> : gradeSubView === 'planilla' ? <GradeSheetForm onClose={() => setView('summary')} /> : <TranscriptForm onClose={() => setView('summary')} />}
+                        {gradeSubView === 'individual' ? <IndividualGradeForm onClose={() => setView('summary')} /> : 
+                         gradeSubView === 'planilla' ? <GradeSheetForm onClose={() => setView('summary')} /> : 
+                         gradeSubView === 'comision' ? <CommissionGradeForm onClose={() => setView('summary')} /> :
+                         <TranscriptForm onClose={() => setView('summary')} />}
                     </div>
                 )}
 

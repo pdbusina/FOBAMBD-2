@@ -178,5 +178,24 @@ export const enrollmentCursadaService = {
 
         if (error) throw error;
         return true;
+    },
+
+    async getStudentsByCommission(comisionId: string) {
+        const { data, error } = await supabase
+            .from('inscripciones_cursada')
+            .select(`
+                perfil_id,
+                obs_optativa_ensamble,
+                perfiles (
+                    dni,
+                    nombre,
+                    apellido
+                )
+            `)
+            .eq('comision_id', comisionId)
+            .order('perfiles(apellido)', { ascending: true });
+
+        if (error) throw error;
+        return data as any[];
     }
 };
