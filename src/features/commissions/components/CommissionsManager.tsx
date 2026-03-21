@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { commissionsService, CommissionInsert, Commission } from '../commissionsService';
+import { MATERIAS_FOBAM } from '../materiasData';
 
 interface CommissionsManagerProps {
     onClose: () => void;
@@ -218,8 +219,14 @@ export default function CommissionsManager({ onClose }: CommissionsManagerProps)
                                 onChange={e => setForm({ ...form, materia_nombre: e.target.value })}
                                 placeholder="Ej: Lenguaje Musical 1"
                                 className="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl font-bold focus:ring-2 focus:ring-indigo-600 transition-all"
+                                list="materias-list"
                                 required
                             />
+                            <datalist id="materias-list">
+                                {MATERIAS_FOBAM.map(m => (
+                                    <option key={m} value={m} />
+                                ))}
+                            </datalist>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
