@@ -90,10 +90,19 @@ export default function EnrollmentCursadaList({ perfilId, rol, refreshTrigger = 
                                     </td>
                                 )}
                                 <td className="px-8 py-5">
-                                    <p className="font-bold text-indigo-600 group-hover:underline underline-offset-4 decoration-indigo-200 cursor-default">
-                                        {e.comisiones?.materia_nombre}
-                                    </p>
-                                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest italic">Prof: {e.comisiones?.docente_nombre}</p>
+                                    <div className="flex flex-col">
+                                        <div className="flex items-center gap-2">
+                                            <p className="font-bold text-indigo-600 group-hover:underline underline-offset-4 decoration-indigo-200 cursor-default">
+                                                {e.comisiones?.materia_nombre}
+                                            </p>
+                                            {e.obs_optativa_ensamble && (
+                                                <span className="bg-amber-100 text-amber-700 text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-tighter border border-amber-200">
+                                                    {e.obs_optativa_ensamble}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest italic mt-0.5">Prof: {e.comisiones?.docente_nombre}</p>
+                                    </div>
                                 </td>
                                 <td className="px-8 py-5">
                                     <div className="space-y-1">

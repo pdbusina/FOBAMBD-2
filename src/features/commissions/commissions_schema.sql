@@ -19,10 +19,11 @@ CREATE TABLE IF NOT EXISTS public.inscripciones_cursada (
   comision_id uuid REFERENCES public.comisiones(id) ON DELETE CASCADE NOT NULL,
   anio_lectivo integer NOT NULL DEFAULT extract(year from now()),
   fecha_inscripcion timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
-  estado text DEFAULT 'inscripto' CHECK (estado IN ('inscripto', 'regular', 'libre', 'baja')),
-  es_excepcion boolean DEFAULT false,
-  
-  -- Restricción: Un alumno no puede inscribirse a la misma comisión el mismo año
+   estado text DEFAULT 'inscripto' CHECK (estado IN ('inscripto', 'regular', 'libre', 'baja')),
+   es_excepcion boolean DEFAULT false,
+   obs_optativa_ensamble text,
+   
+   -- Restricción: Un alumno no puede inscribirse a la misma comisión el mismo año
   UNIQUE(perfil_id, comision_id, anio_lectivo)
 );
 

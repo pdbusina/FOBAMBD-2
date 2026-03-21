@@ -10,6 +10,7 @@ export interface EnrollmentCursada {
     fecha_inscripcion: string;
     estado: 'inscripto' | 'regular' | 'libre' | 'baja';
     es_excepcion: boolean;
+    obs_optativa_ensamble?: string;
     // Joined data
     perfiles?: {
         nombre: string;
@@ -26,7 +27,7 @@ export interface EnrollmentCursada {
 }
 
 export const enrollmentCursadaService = {
-    async enrollStudent(perfilId: string, comisionId: string, esExcepcion: boolean = false) {
+    async enrollStudent(perfilId: string, comisionId: string, esExcepcion: boolean = false, obsOptativaEnsamble: string = '') {
         const currentYear = new Date().getFullYear();
 
         // 1. Obtener datos del alumno (DNI y Matriculaciones)
@@ -122,7 +123,8 @@ export const enrollmentCursadaService = {
                 perfil_id: perfilId,
                 comision_id: comisionId,
                 anio_lectivo: currentYear,
-                es_excepcion: esExcepcion
+                es_excepcion: esExcepcion,
+                obs_optativa_ensamble: obsOptativaEnsamble
             }])
             .select()
             .single();

@@ -15,6 +15,7 @@ export default function EnrollmentCursadaForm({ onClose, onSuccess, initialData 
     const [commissions, setCommissions] = useState<Commission[]>([]);
     const [selectedCommission, setSelectedCommission] = useState('');
     const [esExcepcion, setEsExcepcion] = useState(false);
+    const [obsOptativaEnsamble, setObsOptativaEnsamble] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
@@ -63,13 +64,14 @@ export default function EnrollmentCursadaForm({ onClose, onSuccess, initialData 
         setLoading(true);
         setError(null);
         try {
-            await enrollmentCursadaService.enrollStudent(student.id, selectedCommission, esExcepcion);
+            await enrollmentCursadaService.enrollStudent(student.id, selectedCommission, esExcepcion, obsOptativaEnsamble);
             setSuccess(`¡Incripción exitosa para ${student.nombre}!`);
             if (onSuccess) onSuccess();
             // Limpiar para nueva inscripción
             setStudent(null);
             setDni('');
             setSelectedCommission('');
+            setObsOptativaEnsamble('');
         } catch (err: any) {
             setError(err.message);
         } finally {
@@ -172,6 +174,18 @@ export default function EnrollmentCursadaForm({ onClose, onSuccess, initialData 
                                             </option>
                                         ))}
                                 </select>
+                            </div>
+
+                            <div className="space-y-4">
+                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Observaciones (Optativas/Ensamble)</label>
+                                <input
+                                    type="text"
+                                    value={obsOptativaEnsamble}
+                                    onChange={e => setObsOptativaEnsamble(e.target.value)}
+                                    placeholder="Ej: Proyecto Rock, Nivel Avanzado, etc."
+                                    className="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl font-bold focus:ring-2 focus:ring-amber-400 transition-all placeholder:text-slate-300"
+                                />
+                                <p className="text-[9px] text-slate-400 ml-1">Útil para precisar el nombre en materias optativas o ensambles.</p>
                             </div>
 
                             <div className="flex items-center gap-3 p-4 bg-amber-50 rounded-2xl border border-amber-100">
