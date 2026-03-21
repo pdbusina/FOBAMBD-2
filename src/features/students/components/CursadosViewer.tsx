@@ -8,9 +8,10 @@ import { analyzeCorrelativas, ReporteCorrelativas } from '@/features/students/ut
 interface CursadosViewerProps {
     profile: UserProfile;
     onClose: () => void;
+    onEnroll: (dni: string, materia: string) => void;
 }
 
-export default function CursadosViewer({ profile, onClose }: CursadosViewerProps) {
+export default function CursadosViewer({ profile, onClose, onEnroll }: CursadosViewerProps) {
     const isAdmin = profile.rol === 'admin' || profile.rol === 'preceptor';
 
     const [students, setStudents] = useState<any[]>([]);
@@ -183,10 +184,28 @@ export default function CursadosViewer({ profile, onClose }: CursadosViewerProps
                                     <ul className="space-y-3">
                                         {reporte.disponibles.map((m, i) => (
                                             <li key={i} className="bg-white p-4 rounded-2xl border border-emerald-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-[0_4px_20px_-10px_rgba(16,185,129,0.15)] hover:-translate-y-0.5 transition-transform">
-                                                <span className="font-bold text-slate-700">{m.nombre}</span>
-                                                <span className="text-[10px] uppercase tracking-widest font-bold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-xl whitespace-nowrap border border-emerald-100">
-                                                    {m.motivo}
-                                                </span>
+                                                <div className="flex flex-col">
+                                                    <span className="font-bold text-slate-700">{m.nombre}</span>
+                                                    <span className="text-[10px] uppercase tracking-widest font-bold text-emerald-600 mt-1">
+                                                        {m.motivo}
+                                                    </span>
+                                                </div>
+                                                {isAdmin && (
+                                                    <button
+                                                        onClick={() => onEnroll(selectedDni, m.nombre)}
+                                                        className="bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-slate-900 transition-all shadow-lg shadow-emerald-100 flex items-center justify-center gap-2"
+                                                    >
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                                        </svg>
+                                                        Inscribir
+                                                    </button>
+                                                )}
+                                                {!isAdmin && (
+                                                    <span className="text-[10px] uppercase tracking-widest font-bold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-xl whitespace-nowrap border border-emerald-100">
+                                                        Habilitada
+                                                    </span>
+                                                )}
                                             </li>
                                         ))}
                                     </ul>

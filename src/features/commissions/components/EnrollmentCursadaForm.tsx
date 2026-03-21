@@ -6,19 +6,24 @@ import { commissionsService, Commission } from '../commissionsService';
 interface EnrollmentCursadaFormProps {
     onClose: () => void;
     onSuccess?: () => void;
+    initialData?: { dni?: string; materiaNombre?: string };
 }
 
-export default function EnrollmentCursadaForm({ onClose, onSuccess }: EnrollmentCursadaFormProps) {
-    const [dni, setDni] = useState('');
+export default function EnrollmentCursadaForm({ onClose, onSuccess, initialData }: EnrollmentCursadaFormProps) {
+    const [dni, setDni] = useState(initialData?.dni || '');
     const [student, setStudent] = useState<any>(null);
     const [commissions, setCommissions] = useState<Commission[]>([]);
     const [selectedCommission, setSelectedCommission] = useState('');
+    const [esExcepcion, setEsExcepcion] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
 
     useEffect(() => {
         loadCommissions();
+        if (initialData?.dni) {
+            searchStudent();
+        }
     }, []);
 
     const loadCommissions = async () => {
@@ -58,7 +63,7 @@ export default function EnrollmentCursadaForm({ onClose, onSuccess }: Enrollment
         setLoading(true);
         setError(null);
         try {
-            await enrollmentCursadaService.enrollStudent(student.id, selectedCommission);
+            await enrollmentCursadaService.enrollStudent(student.id, selectedCommission, esExcepcion);
             setSuccess(`¡Incripción exitosa para ${student.nombre}!`);
             if (onSuccess) onSuccess();
             // Limpiar para nueva inscripción
@@ -159,12 +164,28 @@ export default function EnrollmentCursadaForm({ onClose, onSuccess }: Enrollment
                                     required
                                 >
                                     <option value="">Elegir comisión...</option>
-                                    {commissions.map(c => (
-                                        <option key={c.id} value={c.id}>
-                                            {c.materia_nombre} - {c.dia} {c.hora} (Prof: {c.docente_nombre})
-                                        </option>
-                                    ))}
+                                    {commissions
+                                        .filter(c => !initialData?.materiaNombre || c.materia_nombre === initialData.materiaNombre)
+                                        .map(c => (
+                                            <option key={c.id} value={c.id}>
+                                                {c.materia_nombre} - {c.dia} {c.hora} (Prof: {c.docente_nombre})
+                                            </option>
+                                        ))}
                                 </select>
+                            </div>
+
+                            <div className="flex items-center gap-3 p-4 bg-amber-50 rounded-2xl border border-amber-100">
+                                <input
+                                    type="checkbox"
+                                    id="esExcepcion"
+                                    checked={esExcepcion}
+                                    onChange={e => setEsExcepcion(e.target.checked)}
+                                    className="w-5 h-5 rounded border-amber-300 text-amber-600 focus:ring-amber-500"
+                                />
+                                <label htmlFor="esExcepcion" className="text-sm font-bold text-amber-900 cursor-pointer">
+                                    Inscripción por Excepción
+                                    <span className="block text-[10px] font-medium text-amber-700 mt-0.5">Permitir inscripción aunque no cumpla correlativas o ya esté aprobada.</span>
+                                </label>
                             </div>
 
                             <div className="pt-4 flex gap-4">

@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS public.inscripciones_cursada (
   anio_lectivo integer NOT NULL DEFAULT extract(year from now()),
   fecha_inscripcion timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
   estado text DEFAULT 'inscripto' CHECK (estado IN ('inscripto', 'regular', 'libre', 'baja')),
+  es_excepcion boolean DEFAULT false,
   
   -- Restricción: Un alumno no puede inscribirse a la misma comisión el mismo año
   UNIQUE(perfil_id, comision_id, anio_lectivo)
