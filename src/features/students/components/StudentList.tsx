@@ -45,7 +45,16 @@ export default function StudentList({ onEnroll }: StudentListProps) {
         const [profilesRes, enrolledRes] = await Promise.all([
             supabase
                 .from('perfiles')
-                .select('*')
+                .select(`
+                    *,
+                    matriculaciones (
+                        anio_lectivo,
+                        instrumentos_planes (
+                            nombre_completo,
+                            plan_estudios
+                        )
+                    )
+                `)
                 .eq('rol', 'estudiante')
                 .order('apellido', { ascending: true })
                 .order('nombre', { ascending: true })
@@ -116,19 +125,29 @@ export default function StudentList({ onEnroll }: StudentListProps) {
                                 const isEnrolled = enrolledIds.has(student.id);
                                 return (
                                     <tr key={student.id} className="hover:bg-indigo-50/30 transition-all group">
-                                        <td className="px-6 py-2">
-                                            <div className="flex items-center gap-2">
-                                                <span className="text-slate-900 font-bold text-sm group-hover:text-indigo-600 transition-colors uppercase">
-                                                    {student.apellido},
-                                                </span>
-                                                <span className="text-slate-500 font-medium text-sm group-hover:text-indigo-400 uppercase">
-                                                    {student.nombre}
-                                                </span>
-                                                {isEnrolled && (
-                                                    <span className="ml-2 text-[8px] font-bold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full uppercase tracking-tighter border border-emerald-200">
-                                                        Inscripto {new Date().getFullYear()}
+                                        <td className="px-6 py-4">
+                                            <div className="flex flex-col">
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-slate-900 font-bold text-sm group-hover:text-indigo-600 transition-colors uppercase">
+                                                        {student.apellido},
                                                     </span>
-                                                )}
+                                                    <span className="text-slate-500 font-medium text-sm group-hover:text-indigo-400 uppercase">
+                                                        {student.nombre}
+                                                    </span>
+                                                    {isEnrolled && (
+                                                        <span className="ml-2 text-[8px] font-bold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full uppercase tracking-tighter border border-emerald-200">
+                                                            Inscripto {new Date().getFullYear()}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <div className="flex flex-wrap gap-1 mt-1.5">
+                                                    {(student as any).matriculaciones?.map((m: any, idx: number) => (
+                                                        <span key={idx} className="text-[9px] bg-slate-50 text-slate-500 px-2 py-0.5 rounded-lg border border-slate-100 font-bold uppercase tracking-tight">
+                                                            {m.instrumentos_planes?.nombre_completo}
+                                                            <span className="ml-1 opacity-50">({m.anio_lectivo})</span>
+                                                        </span>
+                                                    ))}
+                                                </div>
                                             </div>
                                         </td>
                                         <td className="px-6 py-2 text-center">
