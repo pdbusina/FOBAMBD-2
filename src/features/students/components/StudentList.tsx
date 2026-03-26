@@ -19,7 +19,7 @@ export default function StudentList({ onEnroll }: StudentListProps) {
     useEffect(() => {
         fetchStudentsAndStatus();
 
-        let timeoutId: NodeJS.Timeout;
+        let timeoutId: ReturnType<typeof setTimeout>;
         const debouncedFetch = () => {
             clearTimeout(timeoutId);
             timeoutId = setTimeout(() => {
