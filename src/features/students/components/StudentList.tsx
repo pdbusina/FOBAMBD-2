@@ -19,22 +19,27 @@ export default function StudentList({ onEnroll }: StudentListProps) {
     useEffect(() => {
         fetchStudentsAndStatus();
 
+        let timeoutId: NodeJS.Timeout;
+        const debouncedFetch = () => {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => {
+                fetchStudentsAndStatus();
+            }, 500); // Wait 500ms after the last event before doing the fetch
+        };
+
         // Suscripción en tiempo real para actualizaciones inmediatas
         const channel = supabase
             .channel('perfiles_changes')
-            .on('postgres_changes', { event: '*', schema: 'public', table: 'perfiles' }, () => {
-                fetchStudentsAndStatus();
-            })
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'perfiles' }, debouncedFetch)
             .subscribe();
 
         const enrollChannel = supabase
             .channel('enroll_changes')
-            .on('postgres_changes', { event: '*', schema: 'public', table: 'matriculaciones' }, () => {
-                fetchStudentsAndStatus();
-            })
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'matriculaciones' }, debouncedFetch)
             .subscribe();
 
         return () => {
+            clearTimeout(timeoutId);
             supabase.removeChannel(channel);
             supabase.removeChannel(enrollChannel);
         };
